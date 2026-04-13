@@ -290,6 +290,7 @@ function openProductModal(card) {
         </div>`;
     document.getElementById('pmMainImg').innerHTML = `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none'">`;
     
+    
     function getAngleImages(productData) {
         return {
             left: productData.image_left || productData.image_front || productData.image,
@@ -673,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })();
 
-    // Profile page is protected by Django's @login_required - no JS check needed
+    // Profile page
     if (document.querySelector('.profile-layout') || document.querySelector('.profile-page')) {
         loadUserData();
         var firstTab     = document.querySelector('.profile-nav-item');
@@ -682,7 +683,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (firstSection) firstSection.classList.add('active');
     }
 
-    // Header is handled by Django's template with {% if user.is_authenticated %}
+    // Header avatar pill if logged in
+    var _user = JSON.parse(localStorage.getItem('sh-user') || 'null');
+    if (_user) {
+        document.querySelectorAll('.btn-login').forEach(function (btn) {
+            btn.textContent = _user.username.toUpperCase();
+            btn.onclick = function () { window.location.href = '/profile/'; };
+        });
+    }
 
     // SORT (called last so all cards are in DOM)
     initSort();
@@ -695,17 +703,9 @@ function initTheme() {
 
 function toggleTheme() {
     const html = document.documentElement;
-    const body = document.body;
-    
-    if (html.classList.contains('light')) {
-        html.classList.remove('light');
-        body && body.classList.remove('light');
-        localStorage.setItem('sh-theme', 'dark');
-    } else {
-        html.classList.add('light');
-        body && body.classList.add('light');
-        localStorage.setItem('sh-theme', 'light');
-    }
+    const isLight = html.classList.toggle('light');
+    localStorage.setItem('sh-theme', isLight ? 'light' : 'dark');
+    updateThemeBtn();
 }
 
 /* MODAL FUNCTIONS */
@@ -715,7 +715,7 @@ function openLoginModal() {
     console.log('Modal element:', modal);
     if (modal) {
         modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
         console.log('Modal opened');
     } else {
         console.error('Login modal not found!');
@@ -758,14 +758,14 @@ function loadUserData() {
 function initSort() {
     const sortSelect = document.getElementById('sortSelect');
     if (!sortSelect) return;
-
-    sortSelect.addEventListener('change', function () {
+    
+    sortSelect.addEventListener('change', function() {
         const value = this.value;
         const grid = document.querySelector('.product-grid');
         if (!grid) return;
-
+        
         const cards = Array.from(grid.children);
-        if (value === 'default') return; // nothing to do
+        if (value === 'default') return;
 
         const sorted = cards.sort((a, b) => {
             if (value === 'price-asc') {
@@ -780,17 +780,25 @@ function initSort() {
                 return na.localeCompare(nb);
             }
             if (value === 'discount') {
-                const discountOf = card => {
+                const getDiscount = card => {
                     const price = parseFloat(card.dataset.price) || 0;
                     const old   = parseFloat(card.dataset.oldPrice) || 0;
-                    return old > 0 ? ((old - price) / old) : 0;
+                    return old > 0 ? (old - price) / old : 0;
                 };
-                return discountOf(b) - discountOf(a);
+                return getDiscount(b) - getDiscount(a);
             }
             return 0;
         });
 
         sorted.forEach(card => grid.appendChild(card));
+    });
+}
+/* Initialize Django admin components if needed */
+if (typeof django !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof DateTimeShortcuts !== 'undefined') {
+            DateTimeShortcuts.init();
+        }
     });
 }
 
@@ -1040,9 +1048,9 @@ function initTheme() {
 }
 
 function updateThemeBtn() {
-    const isLight = document.body.classList.contains('light');
+    const isLight = document.documentElement.classList.contains('light');
     document.querySelectorAll('.theme-toggle').forEach(btn => {
-        btn.innerHTML = isLight ? '?? Dark' : '?? Light';
+        btn.textContent = isLight ? '\uD83C\uDF19 Dark' : '\u2600\uFE0F Light';
     });
 }
 
@@ -1064,48 +1072,6 @@ function createLoginModal() {
         </div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     return document.getElementById('loginModal');
-}
-
-function doLogin() {
-    console.log('doLogin() called');
-    const email = document.querySelector('#loginModal input[type="email"]').value.trim();
-    const password = document.querySelector('#loginModal input[type="password"]').value;
-    console.log('Email:', email, 'Password length:', password.length);
-
-    if (!email || !password) {
-        alert('Please enter both email and password');
-        return;
-    }
-
-    fetch('/api/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        credentials: 'same-origin',
-    })
-    .then(r => {
-        console.log('Response status:', r.status);
-        return r.json();
-    })
-    .then(data => {
-        console.log('Response data:', data);
-        if (data.success) {
-            // Redirect based on user role
-            if (data.user.is_superuser || data.user.is_staff) {
-                console.log('Redirecting to admin dashboard');
-                window.location.href = '/admin-dashboard/';
-            } else {
-                console.log('Redirecting to profile');
-                window.location.href = '/profile/';
-            }
-        } else {
-            alert(data.error || 'Login failed.');
-        }
-    })
-    .catch(error => {
-        console.error('Login error:', error);
-        alert('Network error. Please try again.');
-    });
 }
 
 function createSignupModal() {
