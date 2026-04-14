@@ -2166,3 +2166,28 @@ function createSignupModal() {
 
 }
 
+/* ==================== CAROUSEL ==================== */
+(function () {
+    var track = document.getElementById('cTrack');
+    if (!track) return;
+
+    var slides = Array.from(track.querySelectorAll('img'));
+    var total  = slides.length;
+    if (!total) return;
+
+    var current = 0;
+
+    function goTo(n) {
+        current = (n + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    }
+
+    var prevBtn = document.querySelector('.cb.prev');
+    var nextBtn = document.querySelector('.cb.next');
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+    // Auto-advance every 4 seconds
+    setInterval(function () { goTo(current + 1); }, 4000);
+})();
