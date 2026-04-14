@@ -505,14 +505,46 @@ function closeCheckout() {
 
 function placeOrder() {
 
+    // Get checkout form fields using correct selectors
+    const checkoutModal = document.querySelector('.checkout-modal');
+    const nameInput = checkoutModal.querySelector('input[placeholder="Juan dela Cruz"]');
+    const emailInput = checkoutModal.querySelector('input[placeholder="you@email.com"]');
+    const phoneInput = checkoutModal.querySelector('input[placeholder="+63 9XX XXX XXXX"]');
+    const addressInput = checkoutModal.querySelector('input[placeholder="Street, City, Province"]');
+
+    // Validate required fields
+    const errors = [];
+    
+    if (!nameInput || !nameInput.value.trim()) {
+        errors.push('Full name is required');
+    }
+    
+    if (!emailInput || !emailInput.value.trim()) {
+        errors.push('Email address is required');
+    } else if (!emailInput.value.includes('@')) {
+        errors.push('Please enter a valid email address');
+    }
+    
+    if (!phoneInput || !phoneInput.value.trim()) {
+        errors.push('Phone number is required');
+    }
+    
+    if (!addressInput || !addressInput.value.trim()) {
+        errors.push('Delivery address is required');
+    }
+
+    // Show errors if any
+    if (errors.length > 0) {
+        showNotif('❌ Please fill in all required fields:\n' + errors.join('\n'));
+        return;
+    }
+
+    // If validation passes, proceed with order
     closeCheckout();
-
     clearCart();
-
     showNotif('🛒 Order placed! Thank you!');
 
 }
-
 
 
 /* PRODUCT MODAL */
