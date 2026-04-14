@@ -246,31 +246,24 @@ const PRODUCT_DATA = {
 
 /* CART (localStorage-backed) */
 
+function loadState() {
+    const savedCart = localStorage.getItem('sh-cart');
+    cart = savedCart ? JSON.parse(savedCart) : [];
+    updateCartCount();
+}
+
+function saveCart(data) { localStorage.setItem('sh-cart', JSON.stringify(data)); }
+
+let cart = [];
+
 function loadCart() {
-
     try { return JSON.parse(localStorage.getItem('sh-cart') || '[]'); } catch(e) { return []; }
-
 }
-
-function saveCart(cart) {
-
-    try { localStorage.setItem('sh-cart', JSON.stringify(cart)); } catch(e) {}
-
-}
-
-let cart = loadCart();
-
-
 
 function updateCartCount() {
-
-    const total = cart.reduce((s, x) => s + x.qty, 0);
-
+    const total = cart.length;
     document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
-
 }
-
-
 
 function addToCart(name, imgSrc, price, brand) {
 
@@ -1148,14 +1141,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Cart
 
+    loadState();
     updateCartCount();
 
     document.querySelectorAll('.cart-btn').forEach(function (btn) {
-
         btn.addEventListener('click', openCartSidebar);
-
     });
-
+    
     var cartOverlay = document.getElementById('cartOverlay');
 
     if (cartOverlay) cartOverlay.addEventListener('click', closeCartSidebar);
