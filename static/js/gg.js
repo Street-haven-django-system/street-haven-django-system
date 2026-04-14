@@ -993,13 +993,91 @@ function switchTab(name, el) {
 
 
 
+/* MESSAGE NOTIFICATION HANDLER */
+
+function initMessageNotifications() {
+
+    const messagesContainer = document.querySelector('.messages-container');
+
+    if (!messagesContainer) return;
+
+    const messages = messagesContainer.querySelectorAll('.message-item');
+
+    messages.forEach((message, index) => {
+
+        message.style.opacity = '0';
+
+        message.style.transform = 'translateX(-20px)';
+
+        setTimeout(() => {
+
+            message.style.transition = 'all 0.3s ease';
+
+            message.style.opacity = '1';
+
+            message.style.transform = 'translateX(0)';
+
+        }, index * 100);
+
+        setTimeout(() => {
+
+            message.style.opacity = '0';
+
+            message.style.transform = 'translateX(20px)';
+
+            setTimeout(() => {
+
+                message.remove();
+
+                if (messagesContainer.querySelectorAll('.message-item').length === 0) {
+
+                    messagesContainer.remove();
+
+                }
+
+            }, 300);
+
+        }, 4000 + (index * 100));
+
+    });
+
+    messages.forEach(message => {
+
+        message.style.cursor = 'pointer';
+
+        message.addEventListener('click', () => {
+
+            message.style.opacity = '0';
+
+            message.style.transform = 'translateX(20px)';
+
+            setTimeout(() => {
+
+                message.remove();
+
+                if (messagesContainer.querySelectorAll('.message-item').length === 0) {
+
+                    messagesContainer.remove();
+
+                }
+
+            }, 300);
+
+        });
+
+    });
+
+}
+
 /* DOMContentLoaded - ONE single listener, everything wired here */
 
 document.addEventListener('DOMContentLoaded', function () {
 
     console.log('Street.Haven script loaded - DOM ready');
 
+    // Initialize message notifications
 
+    initMessageNotifications();
 
     // Theme
 

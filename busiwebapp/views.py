@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Brand, Category, Shoes, Apparels, Toys
+from django.urls import reverse
+from .models import Brand, Category, Shoes, Apparels, Toys, UserProfile
 from .forms import ShoesForm, ApparelsForm, ToysForm
 import json
 from datetime import date
@@ -176,12 +177,40 @@ def profile(request):
     if request.method == 'POST':
         action = request.POST.get('action')
 
-        if action == 'update_profile':
+        if action == 'upload_avatar':
+            try:
+                user_profile = request.user.userprofile
+                if 'avatar' in request.FILES:
+                    user_profile.avatar = request.FILES['avatar']
+                    user_profile.save()
+                    messages.success(request, 'Profile picture updated successfully!')
+                else:
+                    messages.error(request, 'Please select an image to upload.')
+            except UserProfile.DoesNotExist:
+                # Create UserProfile if it doesn't exist
+                user_profile = UserProfile.objects.create(user=request.user)
+                if 'avatar' in request.FILES:
+                    user_profile.avatar = request.FILES['avatar']
+                    user_profile.save()
+                    messages.success(request, 'Profile picture updated successfully!')
+                else:
+                    messages.error(request, 'Please select an image to upload.')
+            return redirect(f'{reverse("profile")}?tab=settings')
+
+        elif action == 'update_profile':
             request.user.first_name = request.POST.get('first_name', '')
             request.user.last_name  = request.POST.get('last_name', '')
             request.user.email      = request.POST.get('email', '')
             request.user.save()
-            messages.success(request, 'Profile updated successfully.')
+            
+            # Update UserProfile fields
+            user_profile = request.user.userprofile
+            user_profile.contact = request.POST.get('contact', '')
+            user_profile.address = request.POST.get('address', '')
+            user_profile.save()
+            
+            messages.success(request, 'Profile updated successfully!')
+            return redirect(f'{reverse("profile")}?tab=settings')
 
         elif action == 'change_username':
             new_username = request.POST.get('username', '').strip()
@@ -192,7 +221,7 @@ def profile(request):
             else:
                 request.user.username = new_username
                 request.user.save()
-                messages.success(request, 'Username updated successfully.')
+                return redirect(f'{reverse("profile")}?tab=username')
 
         elif action == 'change_password':
             current = request.POST.get('current_password', '')
@@ -208,11 +237,18 @@ def profile(request):
                 request.user.set_password(new_pw)
                 request.user.save()
                 update_session_auth_hash(request, request.user)
-                messages.success(request, 'Password changed successfully.')
+                return redirect(f'{reverse("profile")}?tab=password')
 
         return redirect('profile')
 
-    return render(request, 'busiwebapp/profile.html', {'user': request.user})
+    # Get or create UserProfile
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    return render(request, 'busiwebapp/profile.html', {
+        'user': request.user,
+        'user_profile': user_profile,
+        'order_count': 0  # You can update this with actual order count later
+    })
 
 
 def delete_account(request):
@@ -316,6 +352,43 @@ def register_view(request):
         email=email,
         first_name=first_name,
         last_name=last_name,
+    )
+
+    # Create UserProfile with additional information
+    contact = request.POST.get('contact', '').strip()
+    dob_month = request.POST.get('dob_month', '')
+    dob_day = request.POST.get('dob_day', '')
+    dob_year = request.POST.get('dob_year', '')
+    
+    # Construct date of birth - handle month names
+    dob = None
+    if dob_month and dob_day and dob_year:
+        try:
+            # Convert month name to number
+            month_map = {
+                'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
+                'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12
+            }
+            month_num = month_map.get(dob_month, int(dob_month) if dob_month.isdigit() else 1)
+            from datetime import datetime
+            dob = datetime(int(dob_year), month_num, int(dob_day)).date()
+        except (ValueError, TypeError, KeyError):
+            dob = None
+    
+    # Construct address
+    street = request.POST.get('street', '').strip()
+    city = request.POST.get('city', '').strip()
+    province = request.POST.get('province', '').strip()
+    region = request.POST.get('region', '').strip()
+    
+    address_parts = [part for part in [street, city, province] if part.strip()]
+    address = ', '.join(address_parts) if address_parts else ''
+
+    UserProfile.objects.create(
+        user=user,
+        contact=contact,
+        dob=dob,
+        address=address
     )
 
     login(request, user)
