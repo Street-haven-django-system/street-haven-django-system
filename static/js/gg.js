@@ -1198,36 +1198,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        function syncPos() {
-
-            if (dd.hidden) return;
-
-            var r = input.getBoundingClientRect();
-
-            dd.style.left  = r.left + 'px';
-
-            dd.style.top   = (r.bottom + 6) + 'px';
-
-            dd.style.width = Math.max(r.width, 200) + 'px';
-
-        }
-
-
-
+        function syncPos() {}
+        
         function hideDD() {
-
-            dd.hidden = true; dd.innerHTML = '';
-
-            dd.style.left = dd.style.top = dd.style.width = '';
-
-        }
-
-
-
-        window.addEventListener('scroll', syncPos, true);
-
-        window.addEventListener('resize', syncPos);
-
+    dd.hidden = true;
+    dd.innerHTML = '';
+}
 
 
         var seq = 0;

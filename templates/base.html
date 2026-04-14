@@ -45,11 +45,13 @@
     <div class="search-wrap" data-search-url="{% url 'search_api' %}" data-search-page-url="{% url 'search' %}">
         <form class="search-bar" action="{% url 'search' %}" method="get" role="search">
             <button type="submit" id="globalSearchBtn" aria-label="Search"></button>
-            <input type="search" id="globalSearchInput" name="q" value="{{ request.GET.q|default:'' }}"
-                   autocomplete="off" placeholder="Search sneakers, apparel, brands..."
-                   aria-autocomplete="list" aria-controls="searchDropdown" maxlength="100">
+            <div style="position: relative; flex: 1;">
+                <input type="search" id="globalSearchInput" name="q" value="{{ request.GET.q|default:'' }}"
+                       autocomplete="off" placeholder="Search sneakers, apparel, brands..."
+                       aria-autocomplete="list" aria-controls="searchDropdown" maxlength="100">
+                <div class="search-dropdown" id="searchDropdown" role="listbox" hidden></div>
+            </div>
         </form>
-        <div class="search-dropdown" id="searchDropdown" role="listbox" hidden></div>
     </div>
 
     <div class="header-right">
