@@ -542,8 +542,9 @@ function openProductModal(card) {
     const card_brand = card.dataset.brand || ''; 
 
     const isApparel = window.location.pathname.includes('apparel') || window.location.pathname.includes('sale');
+    const isToys = window.location.pathname.includes('toys');
 
-    const defaultSizes = isApparel ? ['XS','S','M','L','XL','XXL'] : [6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12];
+    const defaultSizes = isApparel ? ['XS','S','M','L','XL','XXL'] : isToys ? [] : [6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12];
 
     const data = PRODUCT_DATA[name] || { brand, price, oldPrice: null, badge: null, sizes: defaultSizes, desc, imgSrc };;
 
