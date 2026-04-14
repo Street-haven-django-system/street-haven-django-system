@@ -631,12 +631,13 @@ a.search-result-row {
     text-decoration: none;
 }
 .cat-card:hover { border-color: rgba(171,6,6,0.5); transform: translateY(-3px); box-shadow: var(--shadow); }
-.cat-emoji {
+.cat-image {
     position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-60%); font-size: 55px; opacity: 0.18;
+    transform: translate(-50%,-60%); width: 500px; height: 230px; opacity: 0.2;
+    object-fit: cover; border-radius: 8px;
     transition: opacity 0.25s, transform 0.25s;
 }
-.cat-card:hover .cat-emoji { opacity: 0.3; transform: translate(-50%,-55%) scale(1.1); }
+.cat-card:hover .cat-image { opacity: 0.3; transform: translate(-50%,-55%) scale(1.1); }
 .cat-inner { position: relative; z-index: 1; }
 .cat-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--text); display: block; }
 .cat-count { font-size: 12px; color: var(--muted); }
