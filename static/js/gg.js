@@ -417,7 +417,7 @@ function refreshCartSidebar() {
 
                 <div class="cart-item-name">${item.name}</div>
 
-                <div class="cart-item-price">?${(item.price * item.qty).toLocaleString()}</div>
+                <div class="cart-item-price">₱${(item.price * item.qty).toLocaleString()}</div>
 
             </div>
 
@@ -429,7 +429,7 @@ function refreshCartSidebar() {
 
                 <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g,"\\'")}', 1)">+</button>
 
-                <button class="delete-btn" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">?</button>
+                <button class="delete-btn" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">🗑</button>
 
             </div>
 
@@ -447,13 +447,13 @@ function refreshCartSidebar() {
 
     footer.innerHTML = `
 
-        <div class="cart-summary-row"><span>Subtotal</span><span>?${subtotal.toLocaleString()}</span></div>
+        <div class="cart-summary-row"><span>Subtotal</span><span>₱${subtotal.toLocaleString()}</span></div>
 
-        <div class="cart-summary-row"><span>Shipping</span><span>${shipping === 0 ? '<span style="color:var(--red)">FREE</span>' : '?' + shipping}</span></div>
+        <div class="cart-summary-row"><span>Shipping</span><span>${shipping === 0 ? '<span style="color:var(--red)">FREE</span>' : '₱' + shipping}</span></div>
 
-        <div class="cart-summary-row total"><span>TOTAL</span><span>?${total.toLocaleString()}</span></div>
+        <div class="cart-summary-row total"><span>TOTAL</span><span>₱${total.toLocaleString()}</span></div>
 
-        <button class="checkout-btn" onclick="closeCartSidebar();openCheckout()">CHECKOUT ?</button>
+        <button class="checkout-btn" onclick="closeCartSidebar();openCheckout()">CHECKOUT 🛒</button>
 
         <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>`;
 
@@ -479,11 +479,11 @@ function openCheckout() {
 
         el.innerHTML =
 
-            cart.map(i => `<div class="cs-row"><span>${i.name} ?${i.qty}</span><span>?${(i.price*i.qty).toLocaleString()}</span></div>`).join('') +
+            cart.map(i => `<div class="cs-row"><span>${i.name} ₱${i.qty}</span><span>₱${(i.price*i.qty).toLocaleString()}</span></div>`).join('') +
 
-            `<div class="cs-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : '?'+shipping}</span></div>
+            `<div class="cs-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : '₱'+shipping}</span></div>
 
-             <div class="cs-row total"><span>TOTAL</span><span>?${total.toLocaleString()}</span></div>`;
+             <div class="cs-row total"><span>TOTAL</span><span>₱${total.toLocaleString()}</span></div>`;
 
     }
 
@@ -509,7 +509,7 @@ function placeOrder() {
 
     clearCart();
 
-    showNotif('? Order placed! Thank you!');
+    showNotif('🛒 Order placed! Thank you!');
 
 }
 
@@ -564,9 +564,9 @@ function openProductModal(card) {
 
     document.getElementById('pmPrice').innerHTML = `
 
-        <span class="pm-price-now">?${data.price.toLocaleString()}</span>
+        <span class="pm-price-now">₱${data.price.toLocaleString()}</span>
 
-        ${data.oldPrice ? `<span class="pm-price-old">?${data.oldPrice.toLocaleString()}</span><span class="pm-discount">-${discount}%</span>` : ''}`;
+        ${data.oldPrice ? `<span class="pm-price-old">₱${data.oldPrice.toLocaleString()}</span><span class="pm-discount">-${discount}%</span>` : ''}`;
 
     document.getElementById('pmDesc').textContent = data.desc || '';
 
@@ -1336,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             '<span class="search-result-sub">' + [item.brand, item.category].filter(Boolean).join(' · ') + '</span></span>' +
 
-                            '<span class="search-result-price">?' + Number(item.price || 0).toLocaleString() + '</span>';
+                            '<span class="search-result-price">₱' + Number(item.price || 0).toLocaleString() + '</span>';
 
                         row.addEventListener('click', function (e) { e.preventDefault(); hideDD(); goToSearchPage(); });
 
@@ -1868,7 +1868,7 @@ if (typeof django !== 'undefined') {
 
 
 
-        const labelMap = { brand: 'Brand', color: 'Color', price_min: 'Min ?', price_max: 'Max ?' };
+        const labelMap = { brand: 'Brand', color: 'Color', price_min: 'Min ₱', price_max: 'Max ₱' };
 
         let hasChip = false;
 
@@ -1888,7 +1888,7 @@ if (typeof django !== 'undefined') {
 
             chip.style.cssText = ['display:inline-flex', 'align-items:center', 'gap:6px', 'background:var(--red)', 'color:#fff', 'padding:5px 12px', 'border-radius:20px', 'font-size:12px', 'letter-spacing:1px', 'font-weight:700', 'cursor:pointer', 'user-select:none', 'transition:opacity .15s'].join(';');
 
-            chip.innerHTML = `${labelMap[key]}: ${val} <span style="font-size:14px;line-height:1">?</span>`;
+            chip.innerHTML = `${labelMap[key]}: ${val} <span style="font-size:14px;line-height:1">❌</span>`;
 
             chip.title = `Remove ${labelMap[key]} filter`;
 

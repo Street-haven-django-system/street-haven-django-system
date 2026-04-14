@@ -59,7 +59,11 @@
             {# ── Logged-in state ── #}
             <a class="user-profile-btn" href="{% url 'profile' %}">
                 <div class="user-avatar-header">
-                    {{ user.username.0|upper }}
+                    {% if user_profile.avatar %}
+                        <img src="{{ user_profile.avatar.url }}" alt="Profile Photo">
+                    {% else %}
+                        {{ user.username.0|upper }}
+                    {% endif %}
                 </div>
                 <span class="user-name-header">
                     {{ user.username }}

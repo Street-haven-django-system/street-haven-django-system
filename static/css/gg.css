@@ -2591,6 +2591,17 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
     font-family: 'Bebas Neue', sans-serif;
     font-size: 15px;
     color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.user-avatar-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
 }
 
 .user-name-header {

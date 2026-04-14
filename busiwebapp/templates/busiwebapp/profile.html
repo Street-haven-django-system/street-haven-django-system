@@ -22,7 +22,7 @@
                             {% else %}
                                 {{ user.username.0|upper }}
                             {% endif %}
-                            <div class="avatar-overlay">??</div>
+                            <div class="avatar-overlay">📷</div>
                         </div>
                         <input type="file" id="avatarFileInput" name="avatar" accept="image/*" style="display:none"
                             onchange="document.getElementById('avatarForm').submit()">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="profile-username">{{ user.username }}</div>
                 <div class="profile-email">{{ user.email }}</div>
-                <div class="profile-joined">?? Joined {{ user.date_joined|date:"F Y" }}</div>
+                <div class="profile-joined">📅 Joined {{ user.date_joined|date:"F Y" }}</div>
             </div>
 
             <div class="profile-stats">
