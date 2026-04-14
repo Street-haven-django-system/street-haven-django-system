@@ -387,16 +387,11 @@ function refreshCartSidebar() {
     if (cart.length === 0) {
 
         wrap.innerHTML = `
-
-            <div class="cart-empty-msg">
-
-                <span>??</span>
-
-                YOUR CART IS EMPTY
-
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--muted);letter-spacing:0.5px;margin-top:4px">Start shopping to add items</div>
-
-            </div>`;
+    <div class="cart-empty-msg">
+        <span>\uD83D\uDED2</span>
+        YOUR CART IS EMPTY
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--muted);letter-spacing:0.5px;margin-top:4px">Start shopping to add items</div>
+    </div>`;
 
         footer.innerHTML = '';
 
