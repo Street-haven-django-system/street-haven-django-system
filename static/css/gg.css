@@ -250,6 +250,7 @@ nav ul li a.sale-link:hover { color: #ff5555; background: rgba(171,6,6,0.18); }
     position: relative;
     flex: 1;
     max-width: 440px;
+    align-items: flex-start;
 }
 .search-bar {
     display: flex; align-items: center;
@@ -268,7 +269,7 @@ nav ul li a.sale-link:hover { color: #ff5555; background: rgba(171,6,6,0.18); }
 .search-bar button { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 14px; }
 
 .search-dropdown {
-    position: fixed;
+    position: absolute     ;
     z-index: 100000;
     max-height: min(70vh, 420px);
     overflow-y: auto;
@@ -2223,18 +2224,19 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 
 .search-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    margin-top: 8px;
     max-height: 400px;
     overflow-y: auto;
     z-index: 100;
     box-shadow: var(--shadow);
     visibility: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-result-row {
