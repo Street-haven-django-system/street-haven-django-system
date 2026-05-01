@@ -244,6 +244,39 @@ const PRODUCT_DATA = {
 
 
 
+/* UTILITY FUNCTIONS */
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Ensure profile button works
+document.addEventListener('DOMContentLoaded', function() {
+    const profileBtn = document.querySelector('.user-profile-btn');
+    if (profileBtn) {
+        profileBtn.addEventListener('click', function(e) {
+            console.log('Profile button clicked');
+            // Close any modals that might be blocking
+            const modals = document.querySelectorAll('.modal-overlay.open');
+            modals.forEach(modal => {
+                modal.classList.remove('open');
+            });
+            // Allow normal navigation
+        });
+    }
+});
+
 /* CART (localStorage-backed) */
 
 function loadState() {
@@ -266,31 +299,40 @@ function updateCartCount() {
 }
 
 function addToCart(name, imgSrc, price, brand) {
-
-    const data = PRODUCT_DATA[name] || { brand: brand || 'Street Haven', price: parseFloat(price) || 0, imgSrc: imgSrc || '' };
-
+    
+    // Use the provided parameters directly instead of falling back to PRODUCT_DATA
+    const finalPrice = parseFloat(price) || 0;
+    const finalBrand = brand || 'Street Haven';
+    const finalImgSrc = imgSrc || '';
+    
+    console.log('Adding to cart:', { name, finalBrand, finalPrice, finalImgSrc });
+    
     const existing = cart.find(x => x.name === name);
 
-    if (existing) { existing.qty += 1; }
-
-    else { cart.push({ name, brand: data.brand, price: data.price, imgSrc: imgSrc || data.imgSrc, qty: 1 }); }
+    if (existing) { 
+        existing.qty += 1; 
+        console.log('Updated existing item quantity:', existing.qty);
+    }
+    else { 
+        cart.push({ 
+            name, 
+            brand: finalBrand, 
+            price: finalPrice, 
+            imgSrc: finalImgSrc, 
+            qty: 1 
+        });
+        console.log('Added new item to cart');
+    }
 
     saveCart(cart);
-
     updateCartCount();
-
     showNotif(`${name} added to cart!`);
-
     refreshCartSidebar();
 
     document.querySelectorAll('.cart-btn').forEach(btn => {
-
         btn.style.transform = 'scale(1.35)';
-
         setTimeout(() => btn.style.transform = '', 200);
-
     });
-
 }
 
 
@@ -494,58 +536,87 @@ function closeCheckout() {
 
 }
 
-
-
 function placeOrder() {
-
-    // Get checkout form fields using correct selectors
+    console.log('=== PLACE ORDER STARTED ===');
+    
+    // Get checkout form fields
     const checkoutModal = document.querySelector('.checkout-modal');
     const nameInput = checkoutModal.querySelector('input[placeholder="Juan dela Cruz"]');
     const emailInput = checkoutModal.querySelector('input[placeholder="you@email.com"]');
     const phoneInput = checkoutModal.querySelector('input[placeholder="+63 9XX XXX XXXX"]');
     const addressInput = checkoutModal.querySelector('input[placeholder="Street, City, Province"]');
+    const paymentSelect = checkoutModal.querySelector('select');
 
-    // Validate required fields
-    const errors = [];
+    // Get cart data
+    const cart = loadCart();
+    console.log('Cart loaded:', cart);
     
-    if (!nameInput || !nameInput.value.trim()) {
-        errors.push('Full name is required');
-    }
-    
-    if (!emailInput || !emailInput.value.trim()) {
-        errors.push('Email address is required');
-    } else if (!emailInput.value.includes('@')) {
-        errors.push('Please enter a valid email address');
-    }
-    
-    if (!phoneInput || !phoneInput.value.trim()) {
-        errors.push('Phone number is required');
-    }
-    
-    if (!addressInput || !addressInput.value.trim()) {
-        errors.push('Delivery address is required');
-    }
-
-    // Show errors if any
-    if (errors.length > 0) {
-        showNotif('❌ Please fill in all required fields:\n' + errors.join('\n'));
+    if (cart.length === 0) {
+        console.error('Cart is empty!');
+        showNotif('❌ Your cart is empty!');
         return;
     }
 
-    // If validation passes, proceed with order
-    closeCheckout();
-    clearCart();
-    showNotif('🛒 Order placed! Thank you!');
+    // Send order to backend
+    const formData = new FormData();
+    formData.append('cart', JSON.stringify(cart));
+    
+    // Add form data if available
+    if (nameInput) formData.append('name', nameInput.value.trim());
+    if (emailInput) formData.append('email', emailInput.value.trim());
+    if (phoneInput) formData.append('phone', phoneInput.value.trim());
+    if (addressInput) formData.append('address', addressInput.value.trim());
+    if (paymentSelect) formData.append('payment_method', paymentSelect.value);
 
+    console.log('Sending order data...');
+    console.log('Cart items:', cart);
+
+    // Show loading state
+    const placeBtn = checkoutModal.querySelector('.modal-btn');
+    const originalText = placeBtn.textContent;
+    placeBtn.textContent = 'PLACING ORDER...';
+    placeBtn.disabled = true;
+
+    fetch('/api/place-order/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status, response.statusText);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.success) {
+            console.log('✅ Order successful! Orders created:', data.order_count);
+            console.log('✅ Order IDs:', data.order_ids);
+            closeCheckout();
+            clearCart();
+            showNotif('🛒 ' + data.message);
+            
+            // Redirect to profile to see orders
+            setTimeout(() => {
+                console.log('Redirecting to profile...');
+                window.location.href = '/profile/';
+            }, 1500);
+        } else {
+            console.error('❌ Order failed:', data.message);
+            showNotif('❌ ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('❌ Order error:', error);
+        showNotif('❌ Error placing order. Please try again.');
+    })
+    .finally(() => {
+        // Restore button state
+        placeBtn.textContent = originalText;
+        placeBtn.disabled = false;
+    });
 }
-
-
-/* PRODUCT MODAL */
-
-function openProductModal(card) {
-
-    const nameEl = card.querySelector('.p-name');
-
     const imgEl  = card.querySelector('.product-thumb img');
 
     if (!nameEl) return;

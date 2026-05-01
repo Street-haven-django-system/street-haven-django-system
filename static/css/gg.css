@@ -2593,6 +2593,8 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
     gap: 8px;
     text-decoration: none;
     color: var(--text);
+    position: relative;
+    z-index: 100000;
 }
 
 .user-avatar-header {

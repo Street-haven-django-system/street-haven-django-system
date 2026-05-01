@@ -36,6 +36,7 @@ urlpatterns = [
     # ── Profile & account ─────────────────────────────────────────────────────
     path('profile/',            views.profile,        name='profile'),
     path('delete-account/',     views.delete_account, name='delete_account'),
+    path('api/place-order/',    views.place_order_view, name='place_order'),
 
     # ── APIs ──────────────────────────────────────────────────────────────────
     path('api/locations/',      views.location_api,  name='locations_api'),

@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.urls import reverse
-from .models import Brand, Category, Shoes, Apparels, Toys, UserProfile
+from .models import Brand, Category, Shoes, Apparels, Toys, UserProfile, Order
 from .forms import ShoesForm, ApparelsForm, ToysForm
 import json
 from datetime import date
@@ -244,11 +244,76 @@ def profile(request):
     # Get or create UserProfile
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     
+    # Get user's orders with debugging
+    orders = Order.objects.filter(user=request.user).order_by('-date')
+    
+    # Debug: Print order information
+    print(f"=== PROFILE VIEW DEBUG ===")
+    print(f"User: {request.user}")
+    print(f"Total orders found: {orders.count()}")
+    for order in orders:
+        print(f"Order: {order.id} - {order.product_name} - ₱{order.price} - {order.date}")
+    
     return render(request, 'busiwebapp/profile.html', {
         'user': request.user,
         'user_profile': user_profile,
-        'order_count': 0  # You can update this with actual order count later
+        'orders': orders,
+        'order_count': orders.count()
     })
+
+
+@csrf_exempt
+@require_POST
+def place_order_view(request):
+    """
+    Handle order placement from frontend
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'message': 'You must be logged in to place an order'})
+    
+    try:
+        # Get cart data from form data
+        cart_data = request.POST.get('cart', '')
+        
+        if not cart_data:
+            return JsonResponse({'success': False, 'message': 'Your cart is empty'})
+        
+        # Parse cart JSON
+        try:
+            cart = json.loads(cart_data)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid cart data'})
+        
+        if not cart:
+            return JsonResponse({'success': False, 'message': 'Your cart is empty'})
+        
+        # Create orders for each item in cart
+        orders_created = []
+        for item in cart:
+            # Get item details
+            name = item.get('name', 'Unknown Product')
+            price = float(item.get('price', 0))
+            quantity = item.get('qty', 1)
+            
+            # Create order
+            order = Order.objects.create(
+                user=request.user,
+                product_name=f"{name} x{quantity}" if quantity > 1 else name,
+                price=price * quantity,
+                status='pending'
+            )
+            orders_created.append(order)
+        
+        # Return success response
+        return JsonResponse({
+            'success': True, 
+            'message': f'Order placed successfully! {len(orders_created)} items ordered.',
+            'order_count': len(orders_created),
+            'order_ids': [order.id for order in orders_created]
+        })
+        
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': f'Error placing order: {str(e)}'})
 
 
 def delete_account(request):

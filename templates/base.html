@@ -66,7 +66,7 @@
     <div class="header-right">
         {% if user.is_authenticated %}
             {# ── Logged-in state ── #}
-            <a class="user-profile-btn" href="{% url 'profile' %}">
+            <a class="user-profile-btn" href="{% url 'profile' %}" onclick="closeAllModals(); console.log('Profile clicked');">
                 <div class="user-avatar-header">
                     {% if user_profile.avatar %}
                         <img src="{{ user_profile.avatar.url }}?t={{ user_profile.updated_at|date:'U' }}" alt="Profile Photo">
@@ -410,12 +410,12 @@
         <button class="modal-close" onclick="closeCheckout()">✕</button>
         <div class="modal-title">CHECKOUT</div>
         <div class="modal-sub">Complete your order</div>
-        <div class="form-group"><label>FULL NAME</label><input type="text" placeholder="Juan dela Cruz"></div>
-        <div class="form-group"><label>EMAIL</label><input type="email" placeholder="you@email.com"></div>
-        <div class="form-group"><label>PHONE</label><input type="tel" placeholder="+63 9XX XXX XXXX"></div>
-        <div class="form-group"><label>DELIVERY ADDRESS</label><input type="text" placeholder="Street, City, Province"></div>
+        <div class="form-group"><label>FULL NAME</label><input type="text" name="name" placeholder="Juan dela Cruz"></div>
+        <div class="form-group"><label>EMAIL</label><input type="email" name="email" placeholder="you@email.com"></div>
+        <div class="form-group"><label>PHONE</label><input type="tel" name="phone" placeholder="+63 9XX XXX XXXX"></div>
+        <div class="form-group"><label>DELIVERY ADDRESS</label><input type="text" name="address" placeholder="Street, City, Province"></div>
         <div class="form-group"><label>PAYMENT METHOD</label>
-            <select>
+            <select name="payment_method">
                 <option>Cash on Delivery</option>
                 <option>GCash</option>
                 <option>Maya</option>
@@ -431,10 +431,16 @@
 <div class="notif" id="notif"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'js/gg.js' %}" defer></script>
+    <script src="{% static 'js/gg.js' %}" defer></script>
 
-<!-- FIX 6: Auto-open login modal using data attribute instead of Django tags inside JS -->
-<script>
+    <!-- FIX 6: Auto-open login modal using data attribute instead of Django tags inside JS -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.querySelector('[data-auto-open-login="true"]')) {
+            openLoginModal();
+        }
+    });
+    </script>
 document.addEventListener('DOMContentLoaded', function () {
     if (document.querySelector('[data-auto-open-login="true"]')) {
         openLoginModal();
