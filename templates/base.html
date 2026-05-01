@@ -69,7 +69,7 @@
             <a class="user-profile-btn" href="{% url 'profile' %}">
                 <div class="user-avatar-header">
                     {% if user_profile.avatar %}
-                        <img src="{{ user_profile.avatar.url }}" alt="Profile Photo">
+                        <img src="{{ user_profile.avatar.url }}?t={{ user_profile.updated_at|date:'U' }}" alt="Profile Photo">
                     {% else %}
                         {{ user.username.0|upper }}
                     {% endif %}
