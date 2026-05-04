@@ -73,7 +73,13 @@
                     {% if orders %}
                         {% for order in orders %}
                         <div class="order-item">
-                            <div class="order-thumb">👟</div>
+                            <div class="order-thumb">
+                                {% if order.image %}
+                                    <img src="{{ order.image }}" alt="{{ order.product_name }}" onerror="this.style.display='none'">
+                                {% else %}
+                                    <img src="{% static 'images/placeholder-product.jpg' %}" alt="{{ order.product_name }}">
+                                {% endif %}
+                            </div>
                             <div class="order-info">
                                 <div class="order-name">{{ order.product_name }}</div>
                                 <div class="order-meta">{{ order.date|date:"F d, Y" }}</div>

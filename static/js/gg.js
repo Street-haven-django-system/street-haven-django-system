@@ -596,12 +596,6 @@ function placeOrder() {
             closeCheckout();
             clearCart();
             showNotif('🛒 ' + data.message);
-            
-            // Redirect to profile to see orders
-            setTimeout(() => {
-                console.log('Redirecting to profile...');
-                window.location.href = '/profile/';
-            }, 1500);
         } else {
             console.error('❌ Order failed:', data.message);
             showNotif('❌ ' + data.message);

@@ -30,6 +30,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=200)
     price = models.FloatField()
+    image = models.URLField(max_length=500, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 

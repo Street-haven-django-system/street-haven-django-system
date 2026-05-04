@@ -252,7 +252,7 @@ def profile(request):
     print(f"User: {request.user}")
     print(f"Total orders found: {orders.count()}")
     for order in orders:
-        print(f"Order: {order.id} - {order.product_name} - ₱{order.price} - {order.date}")
+        print(f"Order: {order.id} - {order.product_name} - ₱{order.price} - Image: '{order.image}' - Date: {order.date}")
     
     return render(request, 'busiwebapp/profile.html', {
         'user': request.user,
@@ -294,12 +294,22 @@ def place_order_view(request):
             name = item.get('name', 'Unknown Product')
             price = float(item.get('price', 0))
             quantity = item.get('qty', 1)
+            image = item.get('imgSrc', '')
+            
+            # Debug: Print what we're saving
+            print(f"=== SAVING ORDER ===")
+            print(f"Name: {name}")
+            print(f"Price: {price}")
+            print(f"Quantity: {quantity}")
+            print(f"Image URL: {image}")
+            print(f"Full item: {item}")
             
             # Create order
             order = Order.objects.create(
                 user=request.user,
                 product_name=f"{name} x{quantity}" if quantity > 1 else name,
                 price=price * quantity,
+                image=image,
                 status='pending'
             )
             orders_created.append(order)
