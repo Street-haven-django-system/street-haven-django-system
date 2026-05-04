@@ -431,16 +431,10 @@
 <div class="notif" id="notif"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/gg.js' %}" defer></script>
+<script src="{% static 'js/gg.js' %}"></script>
 
-    <!-- FIX 6: Auto-open login modal using data attribute instead of Django tags inside JS -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (document.querySelector('[data-auto-open-login="true"]')) {
-            openLoginModal();
-        }
-    });
-    </script>
+<!-- Auto-open login modal if needed -->
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     if (document.querySelector('[data-auto-open-login="true"]')) {
         openLoginModal();

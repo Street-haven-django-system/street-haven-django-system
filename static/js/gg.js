@@ -617,171 +617,102 @@ function placeOrder() {
         placeBtn.disabled = false;
     });
 }
+
+function openProductModal(card) {
+    const nameEl = card.querySelector('.p-name');
     const imgEl  = card.querySelector('.product-thumb img');
 
     if (!nameEl) return;
 
-
-
     const name   = nameEl.textContent.trim();
-
     const imgSrc = card.dataset.img || (imgEl ? imgEl.src : '');
-
     const brand  = card.dataset.brand || '';
-
     const price  = parseFloat(card.dataset.price) || 0;
-
     const desc   = card.dataset.desc || '';
 
-
-
     const card_brand = card.dataset.brand || ''; 
-
     const isApparel = window.location.pathname.includes('apparel') || window.location.pathname.includes('sale');
     const isToys = window.location.pathname.includes('toys');
 
     const defaultSizes = isApparel ? ['XS','S','M','L','XL','XXL'] : isToys ? [] : [6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12];
 
-    const data = PRODUCT_DATA[name] || { brand, price, oldPrice: null, badge: null, sizes: defaultSizes, desc, imgSrc };;
+    const data = PRODUCT_DATA[name] || { brand, price, oldPrice: null, badge: null, sizes: defaultSizes, desc, imgSrc };
 
     const discount = data.oldPrice ? Math.round((1 - data.price / data.oldPrice) * 100) : 0;
 
     const badgeColors = { sale:'badge-sale', new:'badge-new', hot:'badge-hot' };
 
-
-
     document.getElementById('pmBadge').innerHTML = data.badge
-
         ? `<div class="badge ${badgeColors[data.badge]||'badge-sale'}" style="position:relative;top:0;left:0">${data.badge.toUpperCase()}</div>` : '';
 
     document.getElementById('pmBrand').textContent = data.brand;
-
     document.getElementById('pmName').textContent  = name;
-
     document.getElementById('pmPrice').innerHTML = `
-
         <span class="pm-price-now">₱${data.price.toLocaleString()}</span>
-
         ${data.oldPrice ? `<span class="pm-price-old">₱${data.oldPrice.toLocaleString()}</span><span class="pm-discount">-${discount}%</span>` : ''}`;
 
     document.getElementById('pmDesc').textContent = data.desc || '';
-
     document.getElementById('pmSizes').innerHTML = `
-
         <div class="pm-sizes-label">SELECT SIZE</div>
-
         <div class="pm-size-grid">
-
             ${data.sizes.map((s,i) => `<div class="pm-sz${i===0?' active':''}" onclick="selectPmSize(this)">${s}</div>`).join('')}
-
         </div>`;
 
     document.getElementById('pmMainImg').innerHTML = `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none'">`;
 
-    
-
-    
-
     function getAngleImages(productData) {
-
         return {
-
             left: productData.image_left || productData.image_front || productData.image,
-
             front: productData.image_front || productData.image,
-
             back: productData.image_back || productData.image,
-
             right: productData.image_right || productData.image
-
         };
-
     }
 
-
-
     const angleImages = getAngleImages({
-
         image_left: card.dataset.imageLeft || imgSrc,
-
         image_front: card.dataset.imageFront || imgSrc,
-
         image_back: card.dataset.imageBack || imgSrc,
-
         image_right: card.dataset.imageRight || imgSrc,
-
         image: imgSrc
-
     });
 
-    
-
     document.getElementById('pmThumbs').innerHTML = `
-
         <div class="pm-thumb active" onclick="switchAngle(this,'${angleImages.left}','Left')">
-
             <img src="${angleImages.left}" alt="Left" onerror="this.style.display='none'">
-
             <div class="pm-thumb-label">LEFT</div>
-
         </div>
-
         <div class="pm-thumb" onclick="switchAngle(this,'${angleImages.front}','Front')">
-
             <img src="${angleImages.front}" alt="Front" onerror="this.style.display='none'">
-
             <div class="pm-thumb-label">FRONT</div>
-
         </div>
-
         <div class="pm-thumb" onclick="switchAngle(this,'${angleImages.back}','Back')">
-
             <img src="${angleImages.back}" alt="Back" onerror="this.style.display='none'">
-
             <div class="pm-thumb-label">BACK</div>
-
         </div>
-
         <div class="pm-thumb" onclick="switchAngle(this,'${angleImages.right}','Right')">
-
             <img src="${angleImages.right}" alt="Right" onerror="this.style.display='none'">
-
             <div class="pm-thumb-label">RIGHT</div>
-
         </div>
-
     `;
 
     document.getElementById('pmAddBtn').onclick = () => {
-
         addToCart(name, imgSrc, data.price, data.brand);
-
         closeProductModal();
-
     };
 
     document.getElementById('productModal').classList.add('open');
-
     document.body.style.overflow = 'hidden';
-
 }
-
-
 
 function closeProductModal() {
-
     document.getElementById('productModal').classList.remove('open');
-
     document.body.style.overflow = '';
-
 }
-
-
 
 /** Open product modal from API search result object */
 
 function openProductModalFromData(item) {
-
     const card = document.createElement('div');
 
     card.className = 'product-card';
@@ -1010,15 +941,15 @@ async function updateCities() {
 
         if (!res.ok) throw new Error('API failed');
 
-        const CITY_DATA = await res.json();
+        const apiCityData = await res.json();
 
         
 
         cityEl.innerHTML = '<option value="">City / Municipality</option>';
 
-        if (province && CITY_DATA[province]) {
+        if (province && apiCityData[province]) {
 
-            CITY_DATA[province].forEach(city => {
+            apiCityData[province].forEach(city => {
 
                 const option = document.createElement('option');
 
@@ -2360,3 +2291,215 @@ function createSignupModal() {
     // Auto-advance every 4 seconds
     setInterval(function () { goTo(current + 1); }, 4000);
 })();
+
+//* MODAL FUNCTIONS */
+
+function openLoginModal() {
+    console.log('openLoginModal() called');
+    const modal = document.getElementById('loginModal');
+    if (modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function openSignupModal() {
+    const modal = document.getElementById('signupModal');
+    if (modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeAllModals() {
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.classList.remove('open');
+    });
+    document.body.style.overflow = '';
+}
+
+/* SEARCH FUNCTIONS */
+function initGlobalSearch() {
+    var wrap  = document.querySelector('.search-wrap');
+    if (!wrap) return;
+
+    var input = document.getElementById('globalSearchInput');
+    var btn   = document.getElementById('globalSearchBtn');
+    var dd    = document.getElementById('searchDropdown');
+    var searchUrl = wrap.dataset.searchUrl;
+    var searchPageUrl = wrap.dataset.searchPageUrl;
+
+    if (!input || !dd) return;
+
+    function hideDD() { dd.hidden = true; }
+    function showDD() { dd.hidden = false; }
+
+    function goToSearchPage() {
+        var q = input.value.trim();
+        if (q) {
+            window.location.href = searchPageUrl + '?q=' + encodeURIComponent(q);
+        }
+    }
+
+    // Search button click
+    if (btn) btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        goToSearchPage();
+    });
+
+    // Form submit
+    var form = input.closest('form');
+    if (form) form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        goToSearchPage();
+    });
+
+    var seq = 0;
+    function runSearch() {
+        var q = input.value.trim();
+        if (!q) { hideDD(); return; }
+
+        seq++;
+        var curSeq = seq;
+        dd.innerHTML = '<div class="search-loading">Searching...</div>';
+        showDD();
+
+        fetch(searchUrl + '?q=' + encodeURIComponent(q))
+            .then(r => r.json())
+            .then(data => {
+                if (curSeq !== seq) return; // ignore old responses
+                dd.innerHTML = '';
+                if (!data.results || data.results.length === 0) {
+                    dd.innerHTML = '<div class="search-empty">No results found</div>';
+                    showDD();
+                    return;
+                }
+
+                data.results.forEach(item => {
+                    var row = document.createElement('a');
+                    row.href = '#';
+                    row.className = 'search-result-row';
+                    row.innerHTML = '<div class="search-result-name">' + item.name + '</div>' +
+                        '<div class="search-result-brand">' + (item.brand || '') + '</div>' +
+                        '<div class="search-result-category">' + (item.category || '') + '</div>' +
+                        '<span class="search-result-price">₱' + Number(item.price || 0).toLocaleString() + '</span>';
+                    row.addEventListener('click', function (e) { e.preventDefault(); hideDD(); goToSearchPage(); });
+                    dd.appendChild(row);
+                });
+
+                var sa = document.createElement('a');
+                sa.className = 'search-see-all'; sa.href = '#'; sa.textContent = 'View all results ?';
+                sa.addEventListener('click', function (e) { e.preventDefault(); hideDD(); goToSearchPage(); });
+                dd.appendChild(sa);
+                showDD();
+            })
+            .catch(err => {
+                console.error('Search error:', err);
+                dd.innerHTML = '<div class="search-error">Search error</div>';
+                showDD();
+            });
+    }
+
+    var timeout;
+    input.addEventListener('input', function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(runSearch, 300);
+    });
+
+    input.addEventListener('focus', function () { if (input.value.trim()) runSearch(); });
+    document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) hideDD(); });
+}
+
+/* THEME FUNCTIONS */
+function initTheme() {
+    const saved = localStorage.getItem('sh-theme') || 'dark';
+    if (saved === 'light') document.documentElement.classList.add('light');
+    updateThemeBtn();
+}
+
+function toggleTheme() {
+    const html = document.documentElement;
+    const isLight = html.classList.contains('light');
+    
+    if (isLight) {
+        html.classList.remove('light');
+        localStorage.setItem('sh-theme', 'dark');
+    } else {
+        html.classList.add('light');
+        localStorage.setItem('sh-theme', 'light');
+    }
+    
+    updateThemeBtn();
+}
+
+function updateThemeBtn() {
+    const isLight = document.documentElement.classList.contains('light');
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.textContent = isLight ? '🌙 Dark' : '☀️ Light';
+    });
+}
+
+/* ==================== MAIN INITIALIZATION ==================== */
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Street.Haven features...');
+    
+    // Initialize theme
+    initTheme();
+    updateThemeBtn();
+    
+    // Theme toggle button
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+    
+    // Initialize cart
+    cart = loadCart();
+    updateCartCount();
+    
+    // Initialize search
+    if (typeof initGlobalSearch === 'function') {
+        initGlobalSearch();
+    }
+    
+    // Initialize login/signup modals
+    if (typeof initModals === 'function') {
+        initModals();
+    }
+    
+    // Initialize city/province dropdowns
+    const provinceEl = document.getElementById('signupProvince');
+    if (provinceEl) {
+        provinceEl.addEventListener('change', updateCities);
+        updateCities(); // Initial load
+    }
+    
+    // Add to cart buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-to-cart-btn') || e.target.closest('.add-to-cart-btn')) {
+            const btn = e.target.classList.contains('add-to-cart-btn') ? e.target : e.target.closest('.add-to-cart-btn');
+            const card = btn.closest('.product-card');
+            if (card) {
+                const nameEl = card.querySelector('.p-name');
+                const imgEl = card.querySelector('.product-thumb img');
+                const name = nameEl ? nameEl.textContent.trim() : 'Unknown Product';
+                const imgSrc = card.dataset.img || (imgEl ? imgEl.src : '');
+                const brand = card.dataset.brand || '';
+                const price = parseFloat(card.dataset.price) || 0;
+                
+                addToCart(name, imgSrc, price, brand);
+            }
+        }
+        
+        // Quick view buttons
+        if (e.target.classList.contains('quick-view-btn') || e.target.closest('.quick-view-btn')) {
+            const btn = e.target.classList.contains('quick-view-btn') ? e.target : e.target.closest('.quick-view-btn');
+            const card = btn.closest('.product-card');
+            if (card && typeof openProductModal === 'function') {
+                openProductModal(card);
+            }
+        }
+    });
+    
+    console.log('Street.Haven features initialized!');
+});
