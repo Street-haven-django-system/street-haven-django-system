@@ -30,6 +30,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://web-production-c40e11.up.railway.app",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
