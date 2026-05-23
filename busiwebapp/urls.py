@@ -40,5 +40,7 @@ urlpatterns = [
 
     # ── APIs ──────────────────────────────────────────────────────────────────
     path('api/locations/',      views.location_api,  name='locations_api'),
-    path('api/login/',          views.login_api,     name='login_api'),
+
+    path('admin-dashboard/ban/<int:user_id>/', views.ban_user, name='ban_user'),
+    path('admin-dashboard/unban/<int:user_id>/', views.unban_user, name='unban_user'),
 ]

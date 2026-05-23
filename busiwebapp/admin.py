@@ -6,6 +6,7 @@ from django.utils.html import format_html
 from .models import Admin, Apparels, Brand, Category, Shoes, Toys
 admin.site.register(Admin)
 
+
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('name',)

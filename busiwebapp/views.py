@@ -569,6 +569,10 @@ def admin_dashboard(request):
         'apparel_count': Apparels.objects.count(),
         'toys_count':    Toys.objects.count(),
         'admin_user':    request.user,
+        'users':         User.objects.filter(is_staff=False).select_related('userprofile').order_by('-date_joined'),
+        'users_count':   User.objects.filter(is_staff=False).count(),
+        'orders':        Order.objects.all().select_related('user').order_by('-date'),
+        'orders_count':  Order.objects.count(),
     }
     return render(request, 'busiwebapp/admin_dashboard.html', context)
 
@@ -596,3 +600,19 @@ def location_api(request):
         'Nueva Ecija':  ['Cabanatuan City','Palayan City','Gapan City','Muñoz'],
     }
     return JsonResponse(data)
+    
+@staff_member_required
+def ban_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=user_id)
+        user.is_active = False
+        user.save()
+    return redirect('admin_dashboard')
+
+@staff_member_required  
+def unban_user(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=user_id)
+        user.is_active = True
+        user.save()
+    return redirect('admin_dashboard')

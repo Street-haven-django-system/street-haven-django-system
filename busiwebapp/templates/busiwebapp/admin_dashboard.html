@@ -7,7 +7,6 @@
     <link rel="icon" href="{% static 'images/logohaven.png' %}" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
     <title>Admin — Street.Haven</title>
-    
     <script>function switchType(type) {
     ['shoes', 'apparels', 'toys'].forEach(t => {
         document.getElementById('form-' + t).style.display = t === type ? 'block' : 'none';
@@ -16,504 +15,134 @@
         btn.classList.toggle('active', ['shoes','apparels','toys'][i] === type);
     });
 }</script>
-
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-    --red: #ab0606;
-    --red2: #e00;
-    --dark: #0a0a0a;
-    --surface: #111111;
-    --surface2: #191919;
-    --surface3: #222222;
-    --border: rgba(255,255,255,0.07);
-    --text: #f0f0f0;
-    --muted: #666;
-    --green: #00c853;
-    --yellow: #ffab00;
-    --blue: #2979ff;
-    --sidebar-w: 240px;
+    --red: #ab0606; --red2: #e00; --dark: #0a0a0a; --surface: #111111;
+    --surface2: #191919; --surface3: #222222; --border: rgba(255,255,255,0.07);
+    --text: #f0f0f0; --muted: #666; --green: #00c853; --yellow: #ffab00;
+    --blue: #2979ff; --sidebar-w: 240px;
 }
-
-body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    display: flex;
-    min-height: 100vh;
-}
-
-/* ── SIDEBAR ── */
-.admin-sidebar {
-    width: var(--sidebar-w);
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
-    z-index: 100;
-}
-
-.admin-logo {
-    padding: 24px 20px;
-    border-bottom: 1px solid var(--border);
-}
-.admin-logo .logo-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    color: var(--text);
-}
+body { background: var(--dark); color: var(--text); font-family: 'Barlow', sans-serif; display: flex; min-height: 100vh; }
+.admin-sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+.admin-logo { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.admin-logo .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--text); }
 .admin-logo .logo-text span { color: var(--red); }
-.admin-logo .admin-tag {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--red);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    margin-top: 2px;
-}
-
+.admin-logo .admin-tag { font-size: 10px; letter-spacing: 3px; color: var(--red); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; margin-top: 2px; }
 .admin-nav { padding: 16px 0; flex: 1; }
-.nav-section-label {
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: var(--muted);
-    padding: 12px 20px 6px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-}
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 20px;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    transition: all 0.2s;
-    cursor: pointer;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-}
+.nav-section-label { font-size: 9px; letter-spacing: 3px; color: var(--muted); padding: 12px 20px 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; transition: all 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; }
 .nav-item:hover { color: var(--text); background: var(--surface2); }
 .nav-item.active { color: var(--text); background: var(--surface2); border-left: 3px solid var(--red); }
 .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-.nav-item .nav-badge {
-    margin-left: auto;
-    background: var(--red);
-    color: #fff;
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    font-weight: 700;
-}
-
-.admin-sidebar-footer {
-    padding: 16px 20px;
-    border-top: 1px solid var(--border);
-}
-.admin-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.admin-avatar {
-    width: 34px; height: 34px;
-    background: var(--red);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px;
-    color: #fff;
-}
+.nav-item .nav-badge { margin-left: auto; background: var(--red); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 700; }
+.admin-sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
+.admin-user { display: flex; align-items: center; gap: 10px; }
+.admin-avatar { width: 34px; height: 34px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: #fff; }
 .admin-user-info .admin-name { font-size: 13px; font-weight: 600; }
 .admin-user-info .admin-role { font-size: 10px; color: var(--red); letter-spacing: 1px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }
-.logout-btn {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 16px;
-    transition: color 0.2s;
-}
+.logout-btn { margin-left: auto; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; transition: color 0.2s; text-decoration: none; }
 .logout-btn:hover { color: var(--red); }
-
-/* ── MAIN ── */
-.admin-main {
-    margin-left: var(--sidebar-w);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.admin-topbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-}
-.topbar-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text);
-}
+.admin-main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.admin-topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: var(--text); }
 .topbar-right { display: flex; align-items: center; gap: 16px; }
-.topbar-search {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px 14px;
-    border-radius: 4px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    width: 220px;
-    outline: none;
-    transition: border-color 0.2s;
-}
+.topbar-search { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 4px; font-family: 'Barlow', sans-serif; font-size: 13px; width: 220px; outline: none; transition: border-color 0.2s; }
 .topbar-search:focus { border-color: var(--red); }
 .topbar-search::placeholder { color: var(--muted); }
-.topbar-btn {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 8px 18px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background 0.2s;
-}
+.topbar-btn { background: var(--red); color: #fff; border: none; padding: 8px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
 .topbar-btn:hover { background: var(--red2); }
-.back-btn {
-    background: var(--surface2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 8px 16px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    border-radius: 2px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: border-color 0.2s;
-}
+.back-btn { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 8px 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; cursor: pointer; border-radius: 2px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: border-color 0.2s; }
 .back-btn:hover { border-color: var(--red); color: var(--red); }
-
-/* ── CONTENT ── */
 .admin-content { padding: 32px; flex: 1; }
-
-/* ── STATS CARDS ── */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 32px;
-}
-.stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-}
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-}
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 24px; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
 .stat-card.red::before { background: var(--red); }
 .stat-card.green::before { background: var(--green); }
 .stat-card.yellow::before { background: var(--yellow); }
 .stat-card.blue::before { background: var(--blue); }
-
-.stat-label {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--muted);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-.stat-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: 6px;
-}
-.stat-change {
-    font-size: 12px;
-    color: var(--green);
-    font-weight: 600;
-}
-.stat-change.down { color: var(--red); }
-.stat-icon {
-    position: absolute;
-    right: 20px; top: 20px;
-    font-size: 28px;
-    opacity: 0.15;
-}
-
-/* ── GRID LAYOUT ── */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
-}
-.dashboard-grid.full { grid-template-columns: 1fr; }
-
-/* ── PANELS ── */
-.panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-}
-.panel-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.panel-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text);
-}
-.panel-action {
-    font-size: 11px;
-    color: var(--red);
-    letter-spacing: 1px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    background: none;
-    border: none;
-}
+.stat-label { font-size: 10px; letter-spacing: 3px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; margin-bottom: 10px; }
+.stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 42px; line-height: 1; color: var(--text); margin-bottom: 6px; }
+.stat-change { font-size: 12px; color: var(--green); font-weight: 600; }
+.stat-icon { position: absolute; right: 20px; top: 20px; font-size: 28px; opacity: 0.15; }
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.panel-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.panel-title { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--text); }
+.panel-action { font-size: 11px; color: var(--red); letter-spacing: 1px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; cursor: pointer; text-decoration: none; background: none; border: none; }
 .panel-action:hover { color: var(--red2); }
-
-/* ── TABLE ── */
 .admin-table { width: 100%; border-collapse: collapse; }
-.admin-table th {
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    padding: 12px 24px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface2);
-}
-.admin-table td {
-    padding: 14px 24px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    vertical-align: middle;
-}
+.admin-table th { font-size: 9px; letter-spacing: 2px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; padding: 12px 24px; text-align: left; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.admin-table td { padding: 14px 24px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
 .admin-table tr:last-child td { border-bottom: none; }
 .admin-table tr:hover td { background: var(--surface2); }
-
 .product-cell { display: flex; align-items: center; gap: 12px; }
-.product-thumb-sm {
-    width: 40px; height: 40px;
-    background: var(--surface3);
-    border-radius: 4px;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-}
+.product-thumb-sm { width: 40px; height: 40px; background: var(--surface3); border-radius: 4px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .product-thumb-sm img { width: 100%; height: 100%; object-fit: cover; }
 .product-name-sm { font-weight: 600; font-size: 13px; }
 .product-brand-sm { font-size: 11px; color: var(--muted); margin-top: 1px; }
-
-.badge-sm {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 2px;
-    font-size: 10px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-.badge-sale { background: rgba(171,6,6,0.2); color: #ff6b6b; }
-.badge-new  { background: rgba(0,200,83,0.15); color: var(--green); }
-.badge-hot  { background: rgba(255,171,0,0.15); color: var(--yellow); }
+.badge-sm { display: inline-block; padding: 3px 8px; border-radius: 2px; font-size: 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 1px; }
 .badge-active { background: rgba(0,200,83,0.15); color: var(--green); }
 .badge-pending { background: rgba(255,171,0,0.15); color: var(--yellow); }
 .badge-cancelled { background: rgba(171,6,6,0.2); color: #ff6b6b; }
-
+.badge-banned { background: rgba(171,6,6,0.2); color: #ff6b6b; }
 .action-btns { display: flex; gap: 8px; }
-.btn-edit, .btn-delete {
-    border: none;
-    padding: 5px 12px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: opacity 0.2s;
-}
+.btn-edit, .btn-delete { border: none; padding: 5px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer; border-radius: 2px; transition: all 0.2s; }
 .btn-edit { background: var(--surface3); color: var(--text); }
-.btn-edit:hover { background: var(--blue); }
+.btn-edit:hover { background: var(--blue); color: #fff; }
 .btn-delete { background: rgba(171,6,6,0.2); color: #ff6b6b; }
 .btn-delete:hover { background: var(--red); color: #fff; }
-
-/* ── RECENT ORDERS ── */
+.btn-unban { background: rgba(0,200,83,0.15); color: var(--green); border: none; padding: 5px 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer; border-radius: 2px; transition: all 0.2s; }
+.btn-unban:hover { background: var(--green); color: #000; }
 .order-row td:first-child { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: var(--red); font-size: 14px; }
-
-/* ── QUICK STATS BAR ── */
 .category-bars { padding: 20px 24px; }
 .cat-bar-item { margin-bottom: 18px; }
-.cat-bar-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    margin-bottom: 6px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
+.cat-bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 1px; }
 .cat-bar-label span:last-child { color: var(--muted); }
-.cat-bar-track {
-    height: 6px;
-    background: var(--surface3);
-    border-radius: 3px;
-    overflow: hidden;
-}
-.cat-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 1s ease;
-}
-
-/* ── ADD PRODUCT FORM ── */
+.cat-bar-track { height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 3px; }
 .add-form { padding: 24px; display: none; }
 .add-form.show { display: block; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-group-admin { margin-bottom: 0; }
-.form-group-admin label {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    margin-bottom: 6px;
-}
-.form-group-admin input,
-.form-group-admin select,
-.form-group-admin textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px 14px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    border-radius: 2px;
-    outline: none;
-    transition: border-color 0.2s;
-}
-.form-group-admin input:focus,
-.form-group-admin select:focus,
-.form-group-admin textarea:focus { border-color: var(--red); }
+.form-group-admin label { display: block; font-size: 10px; letter-spacing: 2px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; margin-bottom: 6px; }
+.form-group-admin input, .form-group-admin select, .form-group-admin textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; font-family: 'Barlow', sans-serif; font-size: 13px; border-radius: 2px; outline: none; transition: border-color 0.2s; }
+.form-group-admin input:focus, .form-group-admin select:focus, .form-group-admin textarea:focus { border-color: var(--red); }
 .form-group-admin textarea { resize: vertical; min-height: 80px; }
 .form-full { grid-column: 1 / -1; }
 .form-actions { display: flex; gap: 12px; margin-top: 20px; }
-.btn-save {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 11px 28px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background 0.2s;
-}
+.btn-save { background: var(--red); color: #fff; border: none; padding: 11px 28px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; cursor: pointer; border-radius: 2px; transition: background 0.2s; }
 .btn-save:hover { background: var(--red2); }
-.btn-cancel {
-    background: var(--surface3);
-    color: var(--text);
-    border: none;
-    padding: 11px 24px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    border-radius: 2px;
-}
-
-/* ── USERS TABLE ── */
+.btn-cancel { background: var(--surface3); color: var(--text); border: none; padding: 11px 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; cursor: pointer; border-radius: 2px; }
+.type-tab { background: var(--surface3); color: var(--muted); border: 1px solid var(--border); padding: 8px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer; border-radius: 2px; transition: all 0.2s; }
+.type-tab.active { background: var(--red); color: #fff; border-color: var(--red); }
 .user-cell { display: flex; align-items: center; gap: 10px; }
-.user-avatar-sm {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--red);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    color: #fff;
-    flex-shrink: 0;
-}
+.user-avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: #fff; flex-shrink: 0; }
+.user-avatar-sm.banned { background: var(--muted); }
 
-.type-tab {
-    background: var(--surface3);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    padding: 8px 18px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.2s;
-}
-.type-tab.active {
-    background: var(--red);
-    color: #fff;
-    border-color: var(--red);
-}
+/* ── USER MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 999; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; width: 560px; max-width: 95vw; max-height: 85vh; overflow-y: auto; }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 2px; }
+.modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; line-height: 1; }
+.modal-close:hover { color: var(--text); }
+.modal-body { padding: 24px; }
+.modal-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #fff; margin: 0 auto 20px; }
+.modal-name { text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+.modal-username { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+.modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.modal-info-item label { display: block; font-size: 9px; letter-spacing: 2px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; margin-bottom: 4px; }
+.modal-info-item span { font-size: 13px; color: var(--text); }
+.modal-section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px; }
+.modal-orders-table { width: 100%; border-collapse: collapse; }
+.modal-orders-table th { font-size: 9px; letter-spacing: 1px; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+.modal-orders-table td { padding: 8px 8px; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+.modal-orders-table tr:last-child td { border-bottom: none; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
@@ -522,57 +151,68 @@ body {
 </head>
 <body>
 
+<!-- USER DETAIL MODAL -->
+<div class="modal-overlay" id="userModal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">USER DETAILS</div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-avatar" id="modalAvatar"></div>
+            <div class="modal-name" id="modalName"></div>
+            <div class="modal-username" id="modalUsername"></div>
+            <div class="modal-info-grid">
+                <div class="modal-info-item"><label>EMAIL</label><span id="modalEmail">—</span></div>
+                <div class="modal-info-item"><label>CONTACT</label><span id="modalContact">—</span></div>
+                <div class="modal-info-item"><label>DATE JOINED</label><span id="modalJoined">—</span></div>
+                <div class="modal-info-item"><label>STATUS</label><span id="modalStatus">—</span></div>
+                <div class="modal-info-item" style="grid-column:1/-1"><label>ADDRESS</label><span id="modalAddress">—</span></div>
+            </div>
+            <div class="modal-section-title">ORDER HISTORY</div>
+            <table class="modal-orders-table">
+                <thead><tr><th>ORDER ID</th><th>PRODUCT</th><th>TOTAL</th><th>DATE</th><th>STATUS</th></tr></thead>
+                <tbody id="modalOrders">
+                    <tr><td colspan="5" style="color:var(--muted);text-align:center;padding:16px">No orders yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal()">CLOSE</button>
+            <button class="btn-delete" id="modalBanBtn" onclick="submitBan()">BAN USER</button>
+        </div>
+    </div>
+</div>
+
 <!-- SIDEBAR -->
 <aside class="admin-sidebar">
     <div class="admin-logo">
         <div class="logo-text">STREET<span>.</span>HAVEN</div>
         <div class="admin-tag">ADMIN PANEL</div>
     </div>
-
     <nav class="admin-nav">
         <div class="nav-section-label">OVERVIEW</div>
-        <a class="nav-item active" onclick="showSection('dashboard')">
-            <span class="nav-icon">📊</span> Dashboard
-        </a>
-
-        <div class="nav-section-label">STORE</div>
-        <a class="nav-item" onclick="showSection('products')">
-            <span class="nav-icon">👟</span> Products
-            <span class="nav-badge">24</span>
-        </a>
-        <a class="nav-item" onclick="showSection('orders')">
-            <span class="nav-icon">📦</span> Orders
-            <span class="nav-badge">7</span>
-        </a>
-        <a class="nav-item" onclick="showSection('users')">
-            <span class="nav-icon">👥</span> Users
-        </a>
-
-        <div class="nav-section-label">SETTINGS</div>
-        <a class="nav-item" onclick="showSection('settings')">
-            <span class="nav-icon">⚙️</span> Settings
-        </a>
-        <a class="nav-item" href="{% url 'home' %}">
-            <span class="nav-icon">🌐</span> View Site
-        </a>
+        <a class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+        <a class="nav-item" data-section="products" onclick="showSection('products')"><span class="nav-icon">👟</span> Products <span class="nav-badge">{{ shoes_count|add:apparel_count|add:toys_count }}</span></a>
+        <a class="nav-item" data-section="orders" onclick="showSection('orders')"><span class="nav-icon">📦</span> Orders <span class="nav-badge">{{ orders_count }}</span></a>
+        <a class="nav-item" data-section="users" onclick="showSection('users')"><span class="nav-icon">👥</span> Users <span class="nav-badge">{{ users_count }}</span></a>
+        <a class="nav-item" data-section="settings" onclick="showSection('settings')"><span class="nav-icon">⚙️</span> Settings</a>
+        <a class="nav-item" href="{% url 'home' %}"><span class="nav-icon">🌐</span> View Site</a>
     </nav>
-
     <div class="admin-sidebar-footer">
         <div class="admin-user">
-            <div class="admin-avatar">A</div>
+            <div class="admin-avatar">{{ admin_user.username|first|upper }}</div>
             <div class="admin-user-info">
-                <div class="admin-name">Admin</div>
+                <div class="admin-name">{{ admin_user.username }}</div>
                 <div class="admin-role">SUPERUSER</div>
             </div>
-            <a href="{% url 'logout' %}" class="logout-btn" title="Logout">??</a>
+            <a href="{% url 'logout' %}" class="logout-btn" title="Logout">↩</a>
         </div>
     </div>
 </aside>
 
 <!-- MAIN -->
 <div class="admin-main">
-
-    <!-- TOPBAR -->
     <div class="admin-topbar">
         <div class="topbar-title" id="topbarTitle">DASHBOARD</div>
         <div class="topbar-right">
@@ -582,544 +222,359 @@ body {
         </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="admin-content">
 
         <!-- ══ DASHBOARD ══ -->
         <div id="section-dashboard">
-
-            <!-- STATS -->
             <div class="stats-grid">
-                <div class="stat-card red">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-label">TOTAL REVENUE</div>
-                    <div class="stat-value">₱84K</div>
-                    <div class="stat-change">↑ 12% this month</div>
-                </div>
-                <div class="stat-card green">
-                    <div class="stat-icon">📦</div>
-                    <div class="stat-label">TOTAL ORDERS</div>
-                    <div class="stat-value">142</div>
-                    <div class="stat-change">↑ 8% this week</div>
-                </div>
-                <div class="stat-card yellow">
-                    <div class="stat-icon">👟</div>
-                    <div class="stat-label">PRODUCTS</div>
-                    <div class="stat-value">24</div>
-                    <div class="stat-change">↑ 3 new this month</div>
-                </div>
-                <div class="stat-card blue">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-label">REGISTERED USERS</div>
-                    <div class="stat-value">318</div>
-                    <div class="stat-change">↑ 22 this week</div>
-                </div>
+                <div class="stat-card red"><div class="stat-icon">💰</div><div class="stat-label">TOTAL REVENUE</div><div class="stat-value">₱84K</div><div class="stat-change">↑ 12% this month</div></div>
+                <div class="stat-card green"><div class="stat-icon">📦</div><div class="stat-label">TOTAL ORDERS</div><div class="stat-value">{{ orders_count }}</div><div class="stat-change">↑ 8% this week</div></div>
+                <div class="stat-card yellow"><div class="stat-icon">👟</div><div class="stat-label">PRODUCTS</div><div class="stat-value">{{ shoes_count|add:apparel_count|add:toys_count }}</div><div class="stat-change">↑ 3 new this month</div></div>
+                <div class="stat-card blue"><div class="stat-icon">👥</div><div class="stat-label">REGISTERED USERS</div><div class="stat-value">{{ users_count }}</div><div class="stat-change">↑ 22 this week</div></div>
             </div>
-
             <div class="dashboard-grid">
-                <!-- RECENT ORDERS -->
                 <div class="panel">
-                    <div class="panel-header">
-                        <div class="panel-title">RECENT ORDERS</div>
-                        <a class="panel-action" onclick="showSection('orders')">VIEW ALL →</a>
-                    </div>
+                    <div class="panel-header"><div class="panel-title">RECENT ORDERS</div><a class="panel-action" onclick="showSection('orders', this)">VIEW ALL →</a></div>
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ORDER ID</th>
-                                <th>CUSTOMER</th>
-                                <th>AMOUNT</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>ORDER ID</th><th>CUSTOMER</th><th>AMOUNT</th><th>STATUS</th></tr></thead>
                         <tbody>
-                            <tr class="order-row"><td>#0042</td><td>Juan dela Cruz</td><td>₱8,900</td><td><span class="badge-sm badge-active">PAID</span></td></tr>
-                            <tr class="order-row"><td>#0041</td><td>Maria Santos</td><td>₱4,200</td><td><span class="badge-sm badge-pending">PENDING</span></td></tr>
-                            <tr class="order-row"><td>#0040</td><td>Carlo Reyes</td><td>₱12,000</td><td><span class="badge-sm badge-active">PAID</span></td></tr>
-                            <tr class="order-row"><td>#0039</td><td>Ana Villanueva</td><td>₱2,800</td><td><span class="badge-sm badge-cancelled">CANCELLED</span></td></tr>
-                            <tr class="order-row"><td>#0038</td><td>Jose Rizal</td><td>₱7,200</td><td><span class="badge-sm badge-active">PAID</span></td></tr>
+                            {% for order in orders|slice:":5" %}
+                            <tr class="order-row">
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>₱{{ order.price }}</td>
+                                <td>
+                                    {% if order.status == 'pending' %}<span class="badge-sm badge-pending">PENDING</span>
+                                    {% elif order.status == 'delivered' %}<span class="badge-sm badge-active">DELIVERED</span>
+                                    {% elif order.status == 'cancelled' %}<span class="badge-sm badge-cancelled">CANCELLED</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px">No orders yet.</td></tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
-
-                <!-- CATEGORY SALES -->
                 <div class="panel">
-                    <div class="panel-header">
-                        <div class="panel-title">SALES BY CATEGORY</div>
-                    </div>
+                    <div class="panel-header"><div class="panel-title">SALES BY CATEGORY</div></div>
                     <div class="category-bars">
-                        <div class="cat-bar-item">
-                            <div class="cat-bar-label"><span>SHOES</span><span>54%</span></div>
-                            <div class="cat-bar-track"><div class="cat-bar-fill" style="width:54%;background:var(--red)"></div></div>
-                        </div>
-                        <div class="cat-bar-item">
-                            <div class="cat-bar-label"><span>APPAREL</span><span>31%</span></div>
-                            <div class="cat-bar-track"><div class="cat-bar-fill" style="width:31%;background:var(--blue)"></div></div>
-                        </div>
-                        <div class="cat-bar-item">
-                            <div class="cat-bar-label"><span>TOYS</span><span>15%</span></div>
-                            <div class="cat-bar-track"><div class="cat-bar-fill" style="width:15%;background:var(--yellow)"></div></div>
-                        </div>
-                        <div class="cat-bar-item" style="margin-bottom:0">
-                            <div class="cat-bar-label"><span>SALE ITEMS</span><span>38%</span></div>
-                            <div class="cat-bar-track"><div class="cat-bar-fill" style="width:38%;background:var(--green)"></div></div>
-                        </div>
+                        <div class="cat-bar-item"><div class="cat-bar-label"><span>SHOES</span><span>54%</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:54%;background:var(--red)"></div></div></div>
+                        <div class="cat-bar-item"><div class="cat-bar-label"><span>APPAREL</span><span>31%</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:31%;background:var(--blue)"></div></div></div>
+                        <div class="cat-bar-item"><div class="cat-bar-label"><span>TOYS</span><span>15%</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:15%;background:var(--yellow)"></div></div></div>
+                        <div class="cat-bar-item" style="margin-bottom:0"><div class="cat-bar-label"><span>SALE ITEMS</span><span>38%</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:38%;background:var(--green)"></div></div></div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div><!-- END section-dashboard -->
 
         <!-- ══ PRODUCTS ══ -->
         <div id="section-products" style="display:none">
-
-            <!-- ADD PRODUCT FORM -->
             <div class="panel" style="margin-bottom:24px" id="addProductPanel">
-    <div class="panel-header">
-        <div class="panel-title">ADD NEW PRODUCT</div>
-        <button class="panel-action" onclick="toggleAddForm()">✕ CLOSE</button>
-    </div>
-    <div class="add-form" id="addForm">
-
-        <!-- TYPE SWITCHER -->
-        <div style="display:flex;gap:10px;margin-bottom:24px">
-            <button type="button" class="type-tab active" onclick="switchType('shoes')">👟 SHOES</button>
-            <button type="button" class="type-tab" onclick="switchType('apparels')">👕 APPAREL</button>
-            <button type="button" class="type-tab" onclick="switchType('toys')">🧸 TOYS</button>
-        </div>
-
-        <!-- SHOES FORM -->
-        <form id="form-shoes" method="POST" enctype="multipart/form-data"
-              action="{% url 'admin_dashboard' %}">
-            {% csrf_token %}
-            <input type="hidden" name="product_type" value="shoes">
-            <div class="form-grid">
-                <div class="form-group-admin">
-                    <label>PRODUCT NAME</label>
-                    {{ shoes_form.name }}
-                </div>
-                <div class="form-group-admin">
-                    <label>BRAND</label>
-                    {{ shoes_form.brand }}
-                </div>
-                <div class="form-group-admin">
-                    <label>PRICE (₱)</label>
-                    {{ shoes_form.price }}
-                </div>
-                <div class="form-group-admin">
-                    <label>STOCK</label>
-                    {{ shoes_form.stock }}
-                </div>
-                <div class="form-group-admin">
-                    <label>COLOR</label>
-                    {{ shoes_form.color }}
-                </div>
-                <div class="form-group-admin">
-                    <label>GENDER</label>
-                    {{ shoes_form.gender }}
-                </div>
-                <div class="form-group-admin">
-                    <label>CATEGORY</label>
-                    {{ shoes_form.category }}
-                </div>
-                <div class="form-group-admin">
-                    <label>AVAILABLE</label>
-                    {{ shoes_form.is_available }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>DESCRIPTION</label>
-                    {{ shoes_form.description }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>FRONT IMAGE</label>
-                    {{ shoes_form.image_front }}
-                </div>
-                <div class="form-group-admin">
-                    <label>BACK IMAGE</label>
-                    {{ shoes_form.image_back }}
-                </div>
-                <div class="form-group-admin">
-                    <label>LEFT IMAGE</label>
-                    {{ shoes_form.image_left }}
-                </div>
-                <div class="form-group-admin">
-                    <label>RIGHT IMAGE</label>
-                    {{ shoes_form.image_right }}
+                <div class="panel-header"><div class="panel-title">ADD NEW PRODUCT</div><button class="panel-action" onclick="toggleAddForm()">✕ CLOSE</button></div>
+                <div class="add-form" id="addForm">
+                    <div style="display:flex;gap:10px;margin-bottom:24px">
+                        <button type="button" class="type-tab active" onclick="switchType('shoes')">👟 SHOES</button>
+                        <button type="button" class="type-tab" onclick="switchType('apparels')">👕 APPAREL</button>
+                        <button type="button" class="type-tab" onclick="switchType('toys')">🧸 TOYS</button>
+                    </div>
+                    <form id="form-shoes" method="POST" enctype="multipart/form-data" action="{% url 'admin_dashboard' %}">
+                        {% csrf_token %}<input type="hidden" name="product_type" value="shoes">
+                        <div class="form-grid">
+                            <div class="form-group-admin"><label>PRODUCT NAME</label>{{ shoes_form.name }}</div>
+                            <div class="form-group-admin"><label>BRAND</label>{{ shoes_form.brand }}</div>
+                            <div class="form-group-admin"><label>PRICE (₱)</label>{{ shoes_form.price }}</div>
+                            <div class="form-group-admin"><label>STOCK</label>{{ shoes_form.stock }}</div>
+                            <div class="form-group-admin"><label>COLOR</label>{{ shoes_form.color }}</div>
+                            <div class="form-group-admin"><label>GENDER</label>{{ shoes_form.gender }}</div>
+                            <div class="form-group-admin"><label>CATEGORY</label>{{ shoes_form.category }}</div>
+                            <div class="form-group-admin"><label>AVAILABLE</label>{{ shoes_form.is_available }}</div>
+                            <div class="form-group-admin form-full"><label>DESCRIPTION</label>{{ shoes_form.description }}</div>
+                            <div class="form-group-admin form-full"><label>FRONT IMAGE</label>{{ shoes_form.image_front }}</div>
+                            <div class="form-group-admin"><label>BACK IMAGE</label>{{ shoes_form.image_back }}</div>
+                            <div class="form-group-admin"><label>LEFT IMAGE</label>{{ shoes_form.image_left }}</div>
+                            <div class="form-group-admin"><label>RIGHT IMAGE</label>{{ shoes_form.image_right }}</div>
+                        </div>
+                        <div class="form-actions"><button type="submit" class="btn-save">SAVE SHOES</button><button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button></div>
+                    </form>
+                    <form id="form-apparels" method="POST" enctype="multipart/form-data" action="{% url 'admin_dashboard' %}" style="display:none">
+                        {% csrf_token %}<input type="hidden" name="product_type" value="apparels">
+                        <div class="form-grid">
+                            <div class="form-group-admin"><label>PRODUCT NAME</label>{{ apparels_form.name }}</div>
+                            <div class="form-group-admin"><label>BRAND</label>{{ apparels_form.brand }}</div>
+                            <div class="form-group-admin"><label>PRICE (₱)</label>{{ apparels_form.price }}</div>
+                            <div class="form-group-admin"><label>STOCK</label>{{ apparels_form.stock }}</div>
+                            <div class="form-group-admin"><label>COLOR</label>{{ apparels_form.color }}</div>
+                            <div class="form-group-admin"><label>GENDER</label>{{ apparels_form.gender }}</div>
+                            <div class="form-group-admin"><label>CATEGORY</label>{{ apparels_form.category }}</div>
+                            <div class="form-group-admin"><label>AVAILABLE</label>{{ apparels_form.is_available }}</div>
+                            <div class="form-group-admin form-full"><label>DESCRIPTION</label>{{ apparels_form.description }}</div>
+                            <div class="form-group-admin form-full"><label>FRONT IMAGE</label>{{ apparels_form.image_front }}</div>
+                            <div class="form-group-admin"><label>BACK IMAGE</label>{{ apparels_form.image_back }}</div>
+                            <div class="form-group-admin"><label>LEFT IMAGE</label>{{ apparels_form.image_left }}</div>
+                            <div class="form-group-admin"><label>RIGHT IMAGE</label>{{ apparels_form.image_right }}</div>
+                        </div>
+                        <div class="form-actions"><button type="submit" class="btn-save">SAVE APPAREL</button><button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button></div>
+                    </form>
+                    <form id="form-toys" method="POST" enctype="multipart/form-data" action="{% url 'admin_dashboard' %}" style="display:none">
+                        {% csrf_token %}<input type="hidden" name="product_type" value="toys">
+                        <div class="form-grid">
+                            <div class="form-group-admin"><label>PRODUCT NAME</label>{{ toys_form.name }}</div>
+                            <div class="form-group-admin"><label>PRICE (₱)</label>{{ toys_form.price }}</div>
+                            <div class="form-group-admin"><label>STOCK</label>{{ toys_form.stock }}</div>
+                            <div class="form-group-admin"><label>COLOR</label>{{ toys_form.color }}</div>
+                            <div class="form-group-admin"><label>AVAILABLE</label>{{ toys_form.is_available }}</div>
+                            <div class="form-group-admin form-full"><label>DESCRIPTION</label>{{ toys_form.description }}</div>
+                            <div class="form-group-admin form-full"><label>FRONT IMAGE</label>{{ toys_form.image_front }}</div>
+                            <div class="form-group-admin"><label>BACK IMAGE</label>{{ toys_form.image_back }}</div>
+                            <div class="form-group-admin"><label>LEFT IMAGE</label>{{ toys_form.image_left }}</div>
+                            <div class="form-group-admin"><label>RIGHT IMAGE</label>{{ toys_form.image_right }}</div>
+                        </div>
+                        <div class="form-actions"><button type="submit" class="btn-save">SAVE TOY</button><button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button></div>
+                    </form>
                 </div>
             </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-save">SAVE SHOES</button>
-                <button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button>
-            </div>
-        </form>
-
-        <!-- APPARELS FORM -->
-        <form id="form-apparels" method="POST" enctype="multipart/form-data"
-              action="{% url 'admin_dashboard' %}" style="display:none">
-            {% csrf_token %}
-            <input type="hidden" name="product_type" value="apparels">
-            <div class="form-grid">
-                <div class="form-group-admin">
-                    <label>PRODUCT NAME</label>
-                    {{ apparels_form.name }}
-                </div>
-                <div class="form-group-admin">
-                    <label>BRAND</label>
-                    {{ apparels_form.brand }}
-                </div>
-                <div class="form-group-admin">
-                    <label>PRICE (₱)</label>
-                    {{ apparels_form.price }}
-                </div>
-                <div class="form-group-admin">
-                    <label>STOCK</label>
-                    {{ apparels_form.stock }}
-                </div>
-                <div class="form-group-admin">
-                    <label>COLOR</label>
-                    {{ apparels_form.color }}
-                </div>
-                <div class="form-group-admin">
-                    <label>GENDER</label>
-                    {{ apparels_form.gender }}
-                </div>
-                <div class="form-group-admin">
-                    <label>CATEGORY</label>
-                    {{ apparels_form.category }}
-                </div>
-                <div class="form-group-admin">
-                    <label>AVAILABLE</label>
-                    {{ apparels_form.is_available }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>DESCRIPTION</label>
-                    {{ apparels_form.description }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>FRONT IMAGE</label>
-                    {{ apparels_form.image_front }}
-                </div>
-                <div class="form-group-admin">
-                    <label>BACK IMAGE</label>
-                    {{ apparels_form.image_back }}
-                </div>
-                <div class="form-group-admin">
-                    <label>LEFT IMAGE</label>
-                    {{ apparels_form.image_left }}
-                </div>
-                <div class="form-group-admin">
-                    <label>RIGHT IMAGE</label>
-                    {{ apparels_form.image_right }}
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-save">SAVE APPAREL</button>
-                <button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button>
-            </div>
-        </form>
-
-        <!-- TOYS FORM -->
-        <form id="form-toys" method="POST" enctype="multipart/form-data"
-              action="{% url 'admin_dashboard' %}" style="display:none">
-            {% csrf_token %}
-            <input type="hidden" name="product_type" value="toys">
-            <div class="form-grid">
-                <div class="form-group-admin">
-                    <label>PRODUCT NAME</label>
-                    {{ toys_form.name }}
-                </div>
-                <div class="form-group-admin">
-                    <label>PRICE (₱)</label>
-                    {{ toys_form.price }}
-                </div>
-                <div class="form-group-admin">
-                    <label>STOCK</label>
-                    {{ toys_form.stock }}
-                </div>
-                <div class="form-group-admin">
-                    <label>COLOR</label>
-                    {{ toys_form.color }}
-                </div>
-                <div class="form-group-admin">
-                    <label>AVAILABLE</label>
-                    {{ toys_form.is_available }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>DESCRIPTION</label>
-                    {{ toys_form.description }}
-                </div>
-                <div class="form-group-admin form-full">
-                    <label>FRONT IMAGE</label>
-                    {{ toys_form.image_front }}
-                </div>
-                <div class="form-group-admin">
-                    <label>BACK IMAGE</label>
-                    {{ toys_form.image_back }}
-                </div>
-                <div class="form-group-admin">
-                    <label>LEFT IMAGE</label>
-                    {{ toys_form.image_left }}
-                </div>
-                <div class="form-group-admin">
-                    <label>RIGHT IMAGE</label>
-                    {{ toys_form.image_right }}
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-save">SAVE TOY</button>
-                <button type="button" class="btn-cancel" onclick="toggleAddForm()">CANCEL</button>
-            </div>
-        </form>
-
-    </div>
-</div>
-            <!-- PRODUCTS TABLE -->
-           <div class="panel">
-                <div class="panel-header">
-                    <div class="panel-title">ALL PRODUCTS ({{ shoes_count|add:apparel_count|add:toys_count }})</div>
-                    <button class="panel-action" onclick="toggleAddForm()">+ ADD NEW</button>
-                </div>
+            <div class="panel">
+                <div class="panel-header"><div class="panel-title">ALL PRODUCTS ({{ shoes_count|add:apparel_count|add:toys_count }})</div><button class="panel-action" onclick="toggleAddForm()">+ ADD NEW</button></div>
                 <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>PRODUCT</th>
-                            <th>CATEGORY</th>
-                            <th>PRICE</th>
-                            <th>COLOR</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>PRODUCT</th><th>CATEGORY</th><th>PRICE</th><th>COLOR</th><th>ACTIONS</th></tr></thead>
                     <tbody>
                         {% for shoe in shoes %}
                         <tr>
-                            <td><div class="product-cell">
-                                <div class="product-thumb-sm">
-                                    {% if shoe.image %}<img src="{{ shoe.image.url }}" alt="">{% else %}👟{% endif %}
-                                </div>
-                                <div>
-                                    <div class="product-name-sm">{{ shoe.name }}</div>
-                                    <div class="product-brand-sm">{{ shoe.brand }}</div>
-                                </div>
-                            </div></td>
-                            <td>Shoes</td>
-                            <td>₱{{ shoe.price }}</td>
-                            <td>{{ shoe.color }}</td>
-                            <td>
-                                <form method="POST" action="{% url 'delete_product' 'shoes' shoe.pk %}" style="display:inline">
-                                    {% csrf_token %}
-                                    <div class="action-btns">
-                                        <button class="btn-edit" type="button">EDIT</button>
-                                        <button class="btn-delete" type="submit"
-                                            onclick="return confirm('Delete {{ shoe.name }}?')">DELETE</button>
-                                    </div>
-                                </form>
-                            </td>
+                            <td><div class="product-cell"><div class="product-thumb-sm">{% if shoe.image %}<img src="{{ shoe.image.url }}" alt="">{% else %}👟{% endif %}</div><div><div class="product-name-sm">{{ shoe.name }}</div><div class="product-brand-sm">{{ shoe.brand }}</div></div></div></td>
+                            <td>Shoes</td><td>₱{{ shoe.price }}</td><td>{{ shoe.color }}</td>
+                            <td><form method="POST" action="{% url 'delete_product' 'shoes' shoe.pk %}" style="display:inline">{% csrf_token %}<div class="action-btns"><button class="btn-edit" type="button">EDIT</button><button class="btn-delete" type="submit" onclick="return confirm('Delete {{ shoe.name }}?')">DELETE</button></div></form></td>
                         </tr>
                         {% endfor %}
-
                         {% for apparel in apparels %}
                         <tr>
-                            <td><div class="product-cell">
-                                <div class="product-thumb-sm">
-                                    {% if apparel.image %}<img src="{{ apparel.image.url }}" alt="">{% else %}👕{% endif %}
-                                </div>
-                                <div>
-                                    <div class="product-name-sm">{{ apparel.name }}</div>
-                                    <div class="product-brand-sm">{{ apparel.brand }}</div>
-                                </div>
-                            </div></td>
-                            <td>Apparel</td>
-                            <td>₱{{ apparel.price }}</td>
-                            <td>{{ apparel.color }}</td>
-                            <td>
-                                <form method="POST" action="{% url 'delete_product' 'apparels' apparel.pk %}" style="display:inline">
-                                    {% csrf_token %}
-                                    <div class="action-btns">
-                                        <button class="btn-edit" type="button">EDIT</button>
-                                        <button class="btn-delete" type="submit"
-                                            onclick="return confirm('Delete {{ apparel.name }}?')">DELETE</button>
-                                    </div>
-                                </form>
-                            </td>
+                            <td><div class="product-cell"><div class="product-thumb-sm">{% if apparel.image %}<img src="{{ apparel.image.url }}" alt="">{% else %}👕{% endif %}</div><div><div class="product-name-sm">{{ apparel.name }}</div><div class="product-brand-sm">{{ apparel.brand }}</div></div></div></td>
+                            <td>Apparel</td><td>₱{{ apparel.price }}</td><td>{{ apparel.color }}</td>
+                            <td><form method="POST" action="{% url 'delete_product' 'apparels' apparel.pk %}" style="display:inline">{% csrf_token %}<div class="action-btns"><button class="btn-edit" type="button">EDIT</button><button class="btn-delete" type="submit" onclick="return confirm('Delete {{ apparel.name }}?')">DELETE</button></div></form></td>
                         </tr>
                         {% endfor %}
-
                         {% for toy in toys %}
                         <tr>
-                            <td><div class="product-cell">
-                                <div class="product-thumb-sm">
-                                    {% if toy.image %}<img src="{{ toy.image.url }}" alt="">{% else %}🧸{% endif %}
-                                </div>
-                                <div>
-                                    <div class="product-name-sm">{{ toy.name }}</div>
-                                    <div class="product-brand-sm">Toy</div>
-                                </div>
-                            </div></td>
-                            <td>Toys</td>
-                            <td>₱{{ toy.price }}</td>
-                            <td>{{ toy.color }}</td>
-                            <td>
-                                <form method="POST" action="{% url 'delete_product' 'toys' toy.pk %}" style="display:inline">
-                                    {% csrf_token %}
-                                    <div class="action-btns">
-                                        <button class="btn-edit" type="button">EDIT</button>
-                                        <button class="btn-delete" type="submit"
-                                            onclick="return confirm('Delete {{ toy.name }}?')">DELETE</button>
-                                    </div>
-                                </form>
-                            </td>
+                            <td><div class="product-cell"><div class="product-thumb-sm">{% if toy.image %}<img src="{{ toy.image.url }}" alt="">{% else %}🧸{% endif %}</div><div><div class="product-name-sm">{{ toy.name }}</div><div class="product-brand-sm">Toy</div></div></div></td>
+                            <td>Toys</td><td>₱{{ toy.price }}</td><td>{{ toy.color }}</td>
+                            <td><form method="POST" action="{% url 'delete_product' 'toys' toy.pk %}" style="display:inline">{% csrf_token %}<div class="action-btns"><button class="btn-edit" type="button">EDIT</button><button class="btn-delete" type="submit" onclick="return confirm('Delete {{ toy.name }}?')">DELETE</button></div></form></td>
                         </tr>
                         {% endfor %}
-
                         {% if not shoes and not apparels and not toys %}
-                        <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">
-                            No products yet. Add one above!
-                        </td></tr>
+                        <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">No products yet. Add one above!</td></tr>
                         {% endif %}
                     </tbody>
                 </table>
             </div>
+        </div><!-- END section-products -->
+
         <!-- ══ ORDERS ══ -->
         <div id="section-orders" style="display:none">
             <div class="panel">
-                <div class="panel-header">
-                    <div class="panel-title">ALL ORDERS (142)</div>
-                </div>
+                <div class="panel-header"><div class="panel-title">ALL ORDERS ({{ orders_count }})</div></div>
                 <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ORDER ID</th>
-                            <th>CUSTOMER</th>
-                            <th>ITEMS</th>
-                            <th>TOTAL</th>
-                            <th>PAYMENT</th>
-                            <th>STATUS</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ORDER ID</th><th>CUSTOMER</th><th>PRODUCT</th><th>TOTAL</th><th>DATE</th><th>STATUS</th></tr></thead>
                     <tbody>
-                        <tr class="order-row"><td>#0042</td><td>Juan dela Cruz</td><td>Jordan 1 Mid</td><td>₱8,900</td><td>GCash</td><td><span class="badge-sm badge-active">PAID</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0041</td><td>Maria Santos</td><td>Air Force 1 Low</td><td>₱4,200</td><td>COD</td><td><span class="badge-sm badge-pending">PENDING</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0040</td><td>Carlo Reyes</td><td>Jordan 4 Retro</td><td>₱12,000</td><td>Maya</td><td><span class="badge-sm badge-active">PAID</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0039</td><td>Ana Villanueva</td><td>Old Skool</td><td>₱2,800</td><td>COD</td><td><span class="badge-sm badge-cancelled">CANCELLED</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0038</td><td>Jose Rizal</td><td>Ultraboost 22</td><td>₱7,200</td><td>Bank Transfer</td><td><span class="badge-sm badge-active">PAID</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0037</td><td>Lea Salonga</td><td>Fleece Hoodie</td><td>₱2,800</td><td>GCash</td><td><span class="badge-sm badge-pending">PENDING</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
-                        <tr class="order-row"><td>#0036</td><td>Manny Pacquiao</td><td>990v5 + Track Jacket</td><td>₱10,300</td><td>Maya</td><td><span class="badge-sm badge-active">PAID</span></td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">CANCEL</button></div></td></tr>
+                        {% for order in orders %}
+                        <tr class="order-row">
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.user.username }}</td>
+                            <td>{{ order.product_name }}</td>
+                            <td>₱{{ order.price }}</td>
+                            <td>{{ order.date|date:"M j, Y" }}</td>
+                            <td>
+                                {% if order.status == 'pending' %}<span class="badge-sm badge-pending">PENDING</span>
+                                {% elif order.status == 'delivered' %}<span class="badge-sm badge-active">DELIVERED</span>
+                                {% elif order.status == 'cancelled' %}<span class="badge-sm badge-cancelled">CANCELLED</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px">No orders yet.</td></tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div><!-- END section-orders -->
 
         <!-- ══ USERS ══ -->
         <div id="section-users" style="display:none">
+            <!-- Hidden user data for JS to read -->
+            {% for u in users %}
+            <div class="user-data" style="display:none"
+                data-id="{{ u.id }}"
+                data-username="{{ u.username }}"
+                data-fullname="{% if u.get_full_name %}{{ u.get_full_name }}{% else %}{{ u.username }}{% endif %}"
+                data-email="{{ u.email }}"
+                data-contact="{% if u.userprofile.contact %}{{ u.userprofile.contact }}{% else %}—{% endif %}"
+                data-address="{% if u.userprofile.address %}{{ u.userprofile.address }}{% else %}—{% endif %}"
+                data-joined="{{ u.date_joined|date:'M j, Y' }}"
+                data-active="{{ u.is_active }}"
+                data-ban-url="{% url 'ban_user' u.id %}"
+                data-unban-url="{% url 'unban_user' u.id %}"
+                data-orders="{% for o in u.order_set.all %}{{ o.id }}|{{ o.product_name }}|{{ o.price }}|{{ o.date|date:'M j, Y' }}|{{ o.status }}{% if not forloop.last %}~{% endif %}{% endfor %}">
+            </div>
+            {% endfor %}
+
             <div class="panel">
-                <div class="panel-header">
-                    <div class="panel-title">REGISTERED USERS (318)</div>
-                </div>
+                <div class="panel-header"><div class="panel-title">REGISTERED USERS ({{ users_count }})</div></div>
                 <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>USER</th>
-                            <th>USERNAME</th>
-                            <th>CONTACT</th>
-                            <th>ADDRESS</th>
-                            <th>JOINED</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>USER</th><th>USERNAME</th><th>CONTACT</th><th>ADDRESS</th><th>JOINED</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
                     <tbody>
-                        <tr><td><div class="user-cell"><div class="user-avatar-sm">J</div><div><div class="product-name-sm">Juan dela Cruz</div><div class="product-brand-sm">juan@email.com</div></div></div></td><td>juandc</td><td>+63 912 345 6789</td><td>Makati, Metro Manila</td><td>Jan 5, 2025</td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">BAN</button></div></td></tr>
-                        <tr><td><div class="user-cell"><div class="user-avatar-sm">M</div><div><div class="product-name-sm">Maria Santos</div><div class="product-brand-sm">maria@email.com</div></div></div></td><td>mariasantos</td><td>+63 998 765 4321</td><td>Quezon City, MM</td><td>Jan 8, 2025</td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">BAN</button></div></td></tr>
-                        <tr><td><div class="user-cell"><div class="user-avatar-sm">C</div><div><div class="product-name-sm">Carlo Reyes</div><div class="product-brand-sm">carlo@email.com</div></div></div></td><td>carloreyes</td><td>+63 917 111 2233</td><td>Cebu City, Cebu</td><td>Jan 12, 2025</td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">BAN</button></div></td></tr>
-                        <tr><td><div class="user-cell"><div class="user-avatar-sm">A</div><div><div class="product-name-sm">Ana Villanueva</div><div class="product-brand-sm">ana@email.com</div></div></div></td><td>anavillan</td><td>+63 920 444 5566</td><td>Davao City, Davao</td><td>Feb 1, 2025</td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">BAN</button></div></td></tr>
-                        <tr><td><div class="user-cell"><div class="user-avatar-sm">L</div><div><div class="product-name-sm">Lea Salonga</div><div class="product-brand-sm">lea@email.com</div></div></div></td><td>leasalonga</td><td>+63 933 777 8899</td><td>Pasig, Metro Manila</td><td>Feb 14, 2025</td><td><div class="action-btns"><button class="btn-edit">VIEW</button><button class="btn-delete">BAN</button></div></td></tr>
+                        {% for u in users %}
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-avatar-sm {% if not u.is_active %}banned{% endif %}">{{ u.username|first|upper }}</div>
+                                    <div>
+                                        <div class="product-name-sm">{% if u.get_full_name %}{{ u.get_full_name }}{% else %}{{ u.username }}{% endif %}</div>
+                                        <div class="product-brand-sm">{{ u.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ u.username }}</td>
+                            <td>{% if u.userprofile.contact %}{{ u.userprofile.contact }}{% else %}—{% endif %}</td>
+                            <td>{% if u.userprofile.address %}{{ u.userprofile.address }}{% else %}—{% endif %}</td>
+                            <td>{{ u.date_joined|date:"M j, Y" }}</td>
+                            <td>
+                                {% if u.is_active %}<span class="badge-sm badge-active">ACTIVE</span>
+                                {% else %}<span class="badge-sm badge-banned">BANNED</span>{% endif %}
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="btn-edit" onclick="openModal({{ u.id }})">VIEW</button>
+                                    {% if u.is_active %}
+                                    <form method="POST" action="{% url 'ban_user' u.id %}" style="display:inline">{% csrf_token %}
+                                        <button class="btn-delete" type="submit" onclick="return confirm('Ban {{ u.username }}? They will not be able to log in.')">BAN</button>
+                                    </form>
+                                    {% else %}
+                                    <form method="POST" action="{% url 'unban_user' u.id %}" style="display:inline">{% csrf_token %}
+                                        <button class="btn-unban" type="submit">UNBAN</button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px">No registered users yet.</td></tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div><!-- END section-users -->
 
         <!-- ══ SETTINGS ══ -->
         <div id="section-settings" style="display:none">
             <div class="panel" style="max-width:600px">
-                <div class="panel-header">
-                    <div class="panel-title">STORE SETTINGS</div>
-                </div>
+                <div class="panel-header"><div class="panel-title">STORE SETTINGS</div></div>
                 <div style="padding:24px">
                     <div class="form-grid">
-                        <div class="form-group-admin form-full">
-                            <label>STORE NAME</label>
-                            <input type="text" value="Street.Haven">
-                        </div>
-                        <div class="form-group-admin form-full">
-                            <label>STORE TAGLINE</label>
-                            <input type="text" value="Top brands. Real deals. Your vibe.">
-                        </div>
-                        <div class="form-group-admin">
-                            <label>FREE SHIPPING THRESHOLD (₱)</label>
-                            <input type="number" value="500">
-                        </div>
-                        <div class="form-group-admin">
-                            <label>CURRENCY</label>
-                            <select><option>₱ Philippine Peso (PHP)</option></select>
-                        </div>
-                        <div class="form-group-admin form-full">
-                            <label>ANNOUNCEMENT BANNER TEXT</label>
-                            <input type="text" value="🔥 FREE SHIPPING ON ORDERS OVER ₱500 | 30-DAY RETURNS | NEW DROPS EVERY WEEK 🔥">
-                        </div>
+                        <div class="form-group-admin form-full"><label>STORE NAME</label><input type="text" value="Street.Haven"></div>
+                        <div class="form-group-admin form-full"><label>STORE TAGLINE</label><input type="text" value="Top brands. Real deals. Your vibe."></div>
+                        <div class="form-group-admin"><label>FREE SHIPPING THRESHOLD (₱)</label><input type="number" value="500"></div>
+                        <div class="form-group-admin"><label>CURRENCY</label><select><option>₱ Philippine Peso (PHP)</option></select></div>
+                        <div class="form-group-admin form-full"><label>ANNOUNCEMENT BANNER TEXT</label><input type="text" value="🔥 FREE SHIPPING ON ORDERS OVER ₱500 | 30-DAY RETURNS | NEW DROPS EVERY WEEK 🔥"></div>
                     </div>
-                    <div class="form-actions" style="margin-top:24px">
-                        <button class="btn-save">SAVE SETTINGS</button>
-                    </div>
+                    <div class="form-actions" style="margin-top:24px"><button class="btn-save">SAVE SETTINGS</button></div>
                 </div>
             </div>
-        </div>
+        </div><!-- END section-settings -->
 
-    </div>
-</div>
+    </div><!-- end admin-content -->
+</div><!-- end admin-main -->
 
 <script>
 const sections = ['dashboard','products','orders','users','settings'];
-const sectionTitles = {
-    dashboard: 'DASHBOARD',
-    products: 'PRODUCTS',
-    orders: 'ORDERS',
-    users: 'USERS',
-    settings: 'SETTINGS'
-};
+const sectionTitles = { dashboard:'DASHBOARD', products:'PRODUCTS', orders:'ORDERS', users:'USERS', settings:'SETTINGS' };
 
-function showSection(name, target) {
+function showSection(name) {
     sections.forEach(s => {
         document.getElementById('section-' + s).style.display = s === name ? 'block' : 'none';
     });
     document.getElementById('topbarTitle').textContent = sectionTitles[name];
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    target.classList.add('active');
-}
-
-function showSectionById(name) {
-    sections.forEach(s => {
-        document.getElementById('section-' + s).style.display = s === name ? 'block' : 'none';
-    });
-    document.getElementById('topbarTitle').textContent = sectionTitles[name];
+    const active = document.querySelector(`.nav-item[data-section="${name}"]`);
+    if (active) active.classList.add('active');
 }
 
 function toggleAddForm() {
     const form = document.getElementById('addForm');
-    const panel = document.getElementById('addProductPanel');
     if (!form) return;
     form.classList.toggle('show');
-    showSectionById('products');
+    showSection('products');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.nav-item[onclick]').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const sectionName = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-            showSection(sectionName, this);
-        });
-    });
+// ── MODAL ──
+let currentBanUrl = '';
+let currentUnbanUrl = '';
+
+function openModal(userId) {
+    const data = document.querySelector(`.user-data[data-id="${userId}"]`);
+    if (!data) { alert('User data not found: ' + userId); return; }
+
+    const isActive = data.dataset.active === 'True';
+    document.getElementById('modalAvatar').textContent = data.dataset.username[0].toUpperCase();
+    document.getElementById('modalName').textContent = data.dataset.fullname;
+    document.getElementById('modalUsername').textContent = '@' + data.dataset.username;
+    document.getElementById('modalEmail').textContent = data.dataset.email || '—';
+    document.getElementById('modalContact').textContent = data.dataset.contact || '—';
+    document.getElementById('modalJoined').textContent = data.dataset.joined;
+    document.getElementById('modalAddress').textContent = data.dataset.address || '—';
+    document.getElementById('modalStatus').innerHTML = isActive
+        ? '<span class="badge-sm badge-active">ACTIVE</span>'
+        : '<span class="badge-sm badge-banned">BANNED</span>';
+
+    const banBtn = document.getElementById('modalBanBtn');
+    currentBanUrl = data.dataset.banUrl;
+    currentUnbanUrl = data.dataset.unbanUrl;
+    if (isActive) {
+        banBtn.textContent = 'BAN USER';
+        banBtn.className = 'btn-delete';
+    } else {
+        banBtn.textContent = 'UNBAN USER';
+        banBtn.className = 'btn-unban';
+    }
+
+    const ordersBody = document.getElementById('modalOrders');
+    const ordersRaw = data.dataset.orders;
+    if (!ordersRaw) {
+        ordersBody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:16px">No orders yet.</td></tr>';
+    } else {
+        ordersBody.innerHTML = ordersRaw.split('~').map(o => {
+            const [id, name, price, date, status] = o.split('|');
+            const badgeClass = status === 'pending' ? 'badge-pending' : status === 'delivered' ? 'badge-active' : 'badge-cancelled';
+            return `<tr><td>#${id}</td><td>${name}</td><td>₱${price}</td><td>${date}</td><td><span class="badge-sm ${badgeClass}">${status.toUpperCase()}</span></td></tr>`;
+        }).join('');
+    }
+
+    document.getElementById('userModal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('userModal').classList.remove('open');
+}
+
+function submitBan() {
+    const banBtn = document.getElementById('modalBanBtn');
+    const isBanning = banBtn.textContent === 'BAN USER';
+    const url = isBanning ? currentBanUrl : currentUnbanUrl;
+    const confirmMsg = isBanning ? 'Ban this user? They will not be able to log in.' : 'Unban this user?';
+    if (!confirm(confirmMsg)) return;
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    const csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = 'csrfmiddlewaretoken';
+    csrf.value = '{{ csrf_token }}';
+    form.appendChild(csrf);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+document.getElementById('userModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
 });
 </script>
-
 </body>
 </html>
