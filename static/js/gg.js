@@ -1472,25 +1472,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* THEME FUNCTIONS */
 
-function initTheme() {
+/* THEME FUNCTIONS */
+function initTheme() { /* handled below */ }
 
-    // Theme is already applied at the top of the file to prevent FOUC
-
-}
-
-
-
-function toggleTheme() {
-
-    const html = document.documentElement;
-
-    const isLight = html.classList.toggle('light');
-
-    localStorage.setItem('sh-theme', isLight ? 'light' : 'dark');
-
-    updateThemeBtn();
-
-}
+function toggleTheme() { /* handled below */ }
 
 
 
@@ -2407,22 +2392,30 @@ function initGlobalSearch() {
 /* THEME FUNCTIONS */
 function initTheme() {
     const saved = localStorage.getItem('sh-theme') || 'dark';
-    if (saved === 'light') document.documentElement.classList.add('light');
+    if (saved === 'light') {
+        document.documentElement.classList.add('light');
+        document.body.classList.add('light');
+    } else {
+        document.documentElement.classList.remove('light');
+        document.body.classList.remove('light');
+    }
     updateThemeBtn();
 }
 
 function toggleTheme() {
     const html = document.documentElement;
     const isLight = html.classList.contains('light');
-    
+
     if (isLight) {
         html.classList.remove('light');
+        document.body.classList.remove('light');
         localStorage.setItem('sh-theme', 'dark');
     } else {
         html.classList.add('light');
+        document.body.classList.add('light');
         localStorage.setItem('sh-theme', 'light');
     }
-    
+
     updateThemeBtn();
 }
 
