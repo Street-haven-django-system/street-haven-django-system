@@ -697,9 +697,17 @@ a.search-result-row {
 }
 
 .badge {
-    position: absolute; top: 10px; left: 10px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 10px;
-    font-weight: 700; letter-spacing: 1.5px; padding: 3px 8px; border-radius: 3px;
+    position: absolute; 
+    top: 10px; 
+    left: 10px;
+    z-index: 10;
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-size: 10px;
+    font-weight: 700; 
+    letter-spacing: 1.5px; 
+    padding: 3px 8px; 
+    border-radius: 3px;
+    pointer-events: none;
 }
 .badge-sale { background: var(--red); color: #fff; }
 .badge-new  { background: #1a1aff; color: #fff; }
@@ -1748,6 +1756,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 /* Enhanced product card styles */
 .product-card {
     border-radius: 16px;
+    position: relative;
 }
 
 .product-card:hover {
