@@ -485,7 +485,7 @@ body { background: var(--dark); color: var(--text); font-family: 'Barlow', sans-
                             </td>
                             <td>
                                 <div class="action-btns">
-                                    <button class="btn-edit" onclick="openModal({{ u.id }})">VIEW</button>
+                                    <button class="btn-edit" onclick="openModal({ uid })">VIEW</button>
                                     {% if u.is_active %}
                                     <form method="POST" action="{% url 'ban_user' u.id %}" style="display:inline">{% csrf_token %}
                                         <button class="btn-delete" type="submit" onclick="return confirm('Ban {{ u.username }}? They will not be able to log in.')">BAN</button>
